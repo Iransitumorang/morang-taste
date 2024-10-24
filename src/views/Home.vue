@@ -31,12 +31,20 @@
                   <v-img :src="dishe.image" height="50"></v-img>
                 </v-avatar>
                 <div class="text-yellow">{{ dishe.name }}</div>
-                <div class="text-white">{{ dishe.price }}</div>
+                <div class="text-white">{{ dishe.money }}</div>
                 <v-btn @click="addToOrder(dishe)" color="orange" class="mt-2">Buy</v-btn>
               </div>
             </div>
 
-            <v-toolbar color="transparent" class="pr-1 mt-n7">
+            <div class="d-flex justify-space-evenly my-5">
+              <v-btn @click="surpriseMe" color="red" class="white--text rounded-lg elevation-2">Surprise me!</v-btn>
+              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2">Dessert</v-btn>
+              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2">Italian food</v-btn>
+              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2">Fast food</v-btn>
+              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2">Asian food</v-btn>
+            </div>
+
+            <v-toolbar color="transparent" class="pr-1 mt-2">
               <v-toolbar-title class="text-white">Categories</v-toolbar-title>
               <v-spacer></v-spacer>
               <span @click="showModal = true" class="text-caption text-white">View all</span>
@@ -47,7 +55,7 @@
             </h6>
 
             <div class="d-flex justify-space-evenly mt-4" color="transparent">
-              <div v-for="(food, i) in foods.slice(0, 8)" :key="i" class="text-center">
+              <div v-for="(food, i) in filteredFoods" :key="i" class="text-center">
                 <v-avatar color="#424242" size="70">
                   <v-img :src="food.image" height="50"></v-img>
                 </v-avatar>
@@ -62,7 +70,7 @@
                 <v-card-title class="text-h6">All Categories</v-card-title>
                 <v-card-text>
                   <div class="d-flex flex-wrap justify-space-between">
-                    <div v-for="(food, i) in foods" :key="i" class="text-center" style="margin: 10px; width: 120px; background-color: #424242; padding: 10px; border-radius: 8px;">
+                    <div v-for="(food, i) in filteredFoods" :key="i" class="text-center" style="margin: 10px; width: 120px; background-color: #424242; padding: 10px; border-radius: 8px;">
                       <v-avatar color="#424242" size="70">
                         <v-img :src="food.image" height="50"></v-img>
                       </v-avatar>
@@ -79,7 +87,7 @@
               </v-card>
             </v-dialog>
 
-            <v-toolbar color="transparent" class="pr-1 mt-n2">
+            <v-toolbar color="transparent" class="pr-1 my-2">
               <v-toolbar-title class="text-white">Popular Dishes</v-toolbar-title>
               <v-spacer></v-spacer>
               <span class="text-caption text-white" @click="showMoreDishes">View More</span>
@@ -88,8 +96,9 @@
             <h6 class="text-white ml-4 mt-n4">
               <span class="text-red">20+ new </span> dishes added this week
             </h6>
+
             <v-carousel hide-delimiter :cycle="!carouselPaused" :interval="3000" @mouseover="pauseCarousel" @mouseleave="resumeCarousel">
-              <v-carousel-item v-for="(dishe, i) in dishes" :key="i" :src="dishe.image">
+              <v-carousel-item v-for="(dishe, i) in filteredDishes" :key="i" :src="dishe.image">
                 <v-card class="mt-n10" width="160" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f);">
                   <v-card-item class="text-center">
                     <v-card-title class="mt-10">{{ dishe.name }}</v-card-title>
@@ -116,7 +125,8 @@
                 </v-card>
               </v-carousel-item>
             </v-carousel>
-            <v-toolbar color="transparent" class="pr-1 mt-n2">
+
+            <v-toolbar color="transparent" class="pr-1 mt-5">
               <v-toolbar-title class="text-white">Order Reports</v-toolbar-title>
               <v-spacer></v-spacer>
               <span class="text-caption text-white">View all</span>
@@ -177,7 +187,7 @@
               <v-card class="ma-2 mt-n2" color="transparent" flat>
                 <v-card-text class="ml-14 mt-n2" style="max-height: 350px; overflow-y: auto; margin-bottom: 20px;">
                   <div v-if="orderedDishes.length === 0" style="background-color: #424242; color: white; padding: 20px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
-                    <div class="no-order-message">Tidak ada pesanan.</div>
+                    <div class="no-order-message">Tidak ada pesanan :(</div>
                     <div class="order-prompt">Ayo, pesan makanan favoritmu sekarang!</div>
                   </div>
                   <div v-else>
@@ -282,6 +292,25 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="showPopup" max-width="400px" class="popup-dialog">
+      <v-card>
+        <v-card-title class="text-h6">{{ popupTitle }}</v-card-title>
+        <v-card-text>
+          <span v-if="popupTitle === 'Pesanan Dikirim!'">{{ popupMessage }}</span>
+          <span v-else-if="popupTitle === 'Dihapus!'">{{ popupMessage }}</span>
+          <span v-else> Tidak ada pesanan. 😢 </span>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="showPopup = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <div v-if="orderedDishes.length === 0" class="no-order-message">
+      Tidak ada pesanan. 😢
+    </div>
   </v-app>
 </template>
 
@@ -289,32 +318,35 @@
 import { ref, computed } from 'vue';
 import SideBare from "@/components/SideBar.vue";
 import Swal from 'sweetalert2'; 
+
 const searchQuery = ref('');
 const filteredFoods = ref([]);
 const filteredDishes = ref([]);
 const foods = [
-  { image: "2.png", name: "Burger", price: "$5.00" },
-  { image: "3.png", name: "Pizza", price: "$8.00" },
-  { image: "4.png", name: "Sushi", price: "$10.00" },
-  { image: "5.png", name: "Pasta", price: "$7.00" },
-  { image: "6.png", name: "Salad", price: "$4.00" },
-  { image: "7.png", name: "Tacos", price: "$6.00" },
-  { image: "8.png", name: "Steak", price: "$15.00" },
-  { image: "2.png", name: "Ice Cream", price: "$3.00" },
-  { image: "4.png", name: "Brownie", price: "$2.00" },
+  { image: "2.png", name: "Burger", price: "$5.00", category: "Fast food" },
+  { image: "3.png", name: "Pizza", price: "$8.00", category: "Italian food" },
+  { image: "4.png", name: "Sushi", price: "$10.00", category: "Asian food" },
+  { image: "5.png", name: "Pasta", price: "$7.00", category: "Italian food" },
+  { image: "6.png", name: "Salad", price: "$4.00", category: "Dessert" },
+  { image: "7.png", name: "Tacos", price: "$6.00", category: "Fast food" },
+  { image: "8.png", name: "Steak", price: "$15.00", category: "Asian food" },
+  { image: "2.png", name: "Ice Cream", price: "$3.00", category: "Dessert" },
+  { image: "4.png", name: "Brownie", price: "$2.00", category: "Dessert" },
 ];
+
 const dishes = [
-  { image: "11.png", name: "Hamburger", money: "$10.00", star: "4.5" },
-  { image: "22.png", name: "Pizza", money: "$25.00", star: "4.1" },
-  { image: "33.png", name: "Sushi", money: "$15.00", star: "4.3" },
-  { image: "44.png", name: "Gratin", money: "$23.00", star: "4.9" },
-  { image: "2.png", name: "Pasta", money: "$12.00", star: "4.6" },
-  { image: "3.png", name: "Salad", money: "$8.00", star: "4.2" },
-  { image: "4.png", name: "Tacos", money: "$9.00", star: "4.4" },
-  { image: "5.png", name: "Steak", money: "$30.00", star: "4.8" },
-  { image: "6.png", name: "Ice Cream", money: "$5.00", star: "4.7" },
-  { image: "7.png", name: "Brownie", money: "$6.00", star: "4.5" },
+  { image: "11.png", name: "Hamburger", money: "$10.00", star: "4.5", category: "Fast food" },
+  { image: "22.png", name: "Pizza", money: "$25.00", star: "4.1", category: "Italian food" },
+  { image: "33.png", name: "Sushi", money: "$15.00", star: "4.3", category: "Asian food" },
+  { image: "44.png", name: "Gratin", money: "$23.00", star: "4.9", category: "Italian food" },
+  { image: "2.png", name: "Pasta", money: "$12.00", star: "4.6", category: "Italian food" },
+  { image: "3.png", name: "Salad", money: "$8.00", star: "4.2", category: "Dessert" },
+  { image: "4.png", name: "Tacos", money: "$9.00", star: "4.4", category: "Fast food" },
+  { image: "5.png", name: "Steak", money: "$30.00", star: "4.8", category: "Asian food" },
+  { image: "6.png", name: "Ice Cream", money: "$5.00", star: "4.7", category: "Dessert" },
+  { image: "7.png", name: "Brownie", money: "$6.00", star: "4.5", category: "Dessert" },
 ];
+
 const showModal = ref(false);
 const selectedDish = ref({ name: '', price: '', quantity: 1 });
 const orderedDishes = ref([]);
@@ -329,8 +361,14 @@ const moreDishes = [
   { image: "4.png", name: "Tacos", money: "$9.00" },
   { image: "5.png", name: "Steak", money: "$30.00" },
 ];
+
 const showSubmitModal = ref(false);
 const carouselPaused = ref(false);
+const showPopup = ref(false);
+const popupMessage = ref('');
+const popupTitle = ref('');
+const confirmDeleteIndex = ref(null); // Menyimpan index item yang akan dihapus
+const selectedCategory = ref(''); // Menyimpan kategori yang dipilih
 
 const calculateSubTotal = computed(() => {
   return orderedDishes.value.reduce((total, item) => {
@@ -393,32 +431,19 @@ function submitOrder() {
 
 function confirmOrder() {
   console.log("Pesanan telah dikirim:", orderedDishes.value);
-  Swal.fire({
-    title: 'Pesanan Dikirim!',
-    text: 'Pesanan Anda telah berhasil dikirim.',
-    icon: 'success',
-    confirmButtonText: 'OK'
-  });
+  popupTitle.value = 'Pesanan Dikirim!';
+  popupMessage.value = 'Pesanan Anda telah berhasil dikirim 😊😊😊'; // Menambahkan emot senang
+  showPopup.value = true;
   orderedDishes.value = [];
   showSubmitModal.value = false;
 }
 
 function confirmDelete(index) {
-  Swal.fire({
-    title: 'Konfirmasi Hapus',
-    text: "Apakah Anda yakin ingin menghapus item ini?",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Ya, Hapus!',
-    cancelButtonText: 'Batal'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      removeFromOrder(index);
-      Swal.fire('Dihapus!', 'Item telah dihapus dari pesanan.', 'success');
-    } else {
-      Swal.fire('Dibatalkan', 'Penghapusan item dibatalkan.', 'info');
-    }
-  });
+  // Hapus item langsung tanpa konfirmasi
+  removeFromOrder(index);
+  popupTitle.value = 'Dihapus!';
+  popupMessage.value = 'Item telah dihapus dari pesanan 😢😢😢'; // Menambahkan emot sedih
+  showPopup.value = true;
 }
 
 function pauseCarousel() {
@@ -427,6 +452,22 @@ function pauseCarousel() {
 
 function resumeCarousel() {
   carouselPaused.value = false;
+}
+
+function filterByCategory(category) {
+  selectedCategory.value = category;
+  filteredFoods.value = foods.filter(food => food.category === category);
+  filteredDishes.value = dishes.filter(dish => dish.category === category);
+}
+
+// Inisialisasi filteredDishes dan filteredFoods dengan semua item pada awalnya
+filteredFoods.value = foods;
+filteredDishes.value = dishes;
+
+function surpriseMe() {
+  // Logika untuk menampilkan makanan acak
+  filteredFoods.value = foods.sort(() => 0.5 - Math.random()).slice(0, 5); // Contoh: ambil 5 makanan acak
+  filteredDishes.value = dishes.sort(() => 0.5 - Math.random()).slice(0, 5);
 }
 </script>
 
@@ -529,5 +570,24 @@ export default {
   color: #FFD700; 
   font-weight: bold; 
   animation: bounce 1s infinite;
+}
+.popup-dialog .v-card {
+  background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+  color: white;
+  border-radius: 10px;
+}
+.popup-dialog .v-card-title {
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  font-size: 1.2rem;
+}
+.popup-dialog .v-btn {
+  font-weight: bold;
+}
+.no-order-message {
+  color: white; /* Pastikan teks terlihat */
+  text-align: center; /* Pusatkan teks */
+  margin-top: 20px; /* Tambahkan margin untuk jarak */
 }
 </style>
