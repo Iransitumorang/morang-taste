@@ -5,46 +5,38 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="8">
-            <v-text-field
-              density="compact"
-              placeholder="Search restaurant, Food, Cuisine or a Dish"
-              append-inner-icon="mdi-magnify"
-              variant="outlined"
-              rounded
-              class="text-white mx-8 placeholder"
-              v-model="searchQuery" 
-              @input="filterItems"
-              style="color: white;" 
-            ></v-text-field>
+            <div class="d-flex justify-space-between my-5">
+              <v-text-field
+                density="compact"
+                placeholder="Search restaurant, Food, Cuisine or a Dish"
+                append-inner-icon="mdi-magnify"
+                variant="outlined"
+                rounded
+                class="text-white mx-8 placeholder"
+                v-model="searchQuery" 
+                @input="filterItems"
+                style="color: white;" 
+              ></v-text-field>
 
-            <div v-if="(filteredFoods.length || filteredDishes.length) && searchQuery" class="d-flex justify-space-evenly mt-4" color="transparent">
-              <div v-for="(food, i) in filteredFoods" :key="i" class="text-center">
-                <v-avatar color="#424242" size="70">
-                  <v-img :src="food.image" height="50"></v-img>
-                </v-avatar>
-                <div class="text-yellow">{{ food.name }}</div>
-                <div class="text-white">{{ food.price }}</div>
-                <v-btn @click="addToOrder(food)" color="orange" class="mt-2">Buy</v-btn>
-              </div>
-              <div v-for="(dishe, i) in filteredDishes" :key="i" class="text-center">
-                <v-avatar color="#424242" size="70">
-                  <v-img :src="dishe.image" height="50"></v-img>
-                </v-avatar>
-                <div class="text-yellow">{{ dishe.name }}</div>
-                <div class="text-white">{{ dishe.money }}</div>
-                <v-btn @click="addToOrder(dishe)" color="orange" class="mt-2">Buy</v-btn>
-              </div>
+              <v-select
+                v-model="sortOption"
+                :items="sortOptions"
+                label="Sort by"
+                class="white--text custom-select" 
+                @change="sortItems"
+                style="max-width: 150px; height: 25px;" 
+              ></v-select>
             </div>
 
-            <div class="d-flex justify-space-evenly my-5">
-              <v-btn @click="surpriseMe" color="red" class="white--text rounded-lg elevation-2">Surprise me!</v-btn>
-              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2">Dessert</v-btn>
-              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2">Italian food</v-btn>
-              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2">Fast food</v-btn>
-              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2">Asian food</v-btn>
+            <div class="d-flex justify-start my-5 ml-3">
+              <v-btn @click="surpriseMe" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ff7e5f, #feb47b);">Surprise me!</v-btn>
+              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ffccbc, #ffab91);">Dessert</v-btn>
+              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ffccbc, #ffab91);">Italian food</v-btn>
+              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ffccbc, #ffab91);">Fast food</v-btn>
+              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Asian food</v-btn>
             </div>
 
-            <v-toolbar color="transparent" class="pr-1 mt-2">
+            <v-toolbar color="transparent" class="pr-1 mt-n2">
               <v-toolbar-title class="text-white">Categories</v-toolbar-title>
               <v-spacer></v-spacer>
               <span @click="showModal = true" class="text-caption text-white">View all</span>
@@ -55,13 +47,13 @@
             </h6>
 
             <div class="d-flex justify-space-evenly mt-4" color="transparent">
-              <div v-for="(food, i) in filteredFoods" :key="i" class="text-center">
-                <v-avatar color="#424242" size="70">
+              <div v-for="(food, i) in displayedFoods" :key="i" class="text-center">
+                <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
                   <v-img :src="food.image" height="50"></v-img>
                 </v-avatar>
                 <div class="text-white">{{ food.name }}</div>
                 <div class="text-white">{{ food.price }}</div>
-                <v-btn @click="addToOrder(food)" color="orange" class="mt-2">Buy</v-btn>
+                <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
               </div>
             </div>
 
@@ -69,14 +61,24 @@
               <v-card class="bg-grey-900">
                 <v-card-title class="text-h6">All Categories</v-card-title>
                 <v-card-text>
-                  <div class="d-flex flex-wrap justify-space-between">
-                    <div v-for="(food, i) in filteredFoods" :key="i" class="text-center" style="margin: 10px; width: 120px; background-color: #424242; padding: 10px; border-radius: 8px;">
-                      <v-avatar color="#424242" size="70">
+                  <div class="d-flex flex-wrap justify-center">
+                    <div v-for="(food, i) in filteredFoods.slice(0, 4)" :key="i" class="category-item">
+                      <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
                         <v-img :src="food.image" height="50"></v-img>
                       </v-avatar>
                       <div class="text-white">{{ food.name }}</div>
                       <div class="text-white">{{ food.price }}</div>
-                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2">Buy</v-btn>
+                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
+                    </div>
+                  </div>
+                  <div class="d-flex flex-wrap justify-center mt-4">
+                    <div v-for="(food, i) in filteredFoods.slice(4, 8)" :key="i + 4" class="category-item">
+                      <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
+                        <v-img :src="food.image" height="50"></v-img>
+                      </v-avatar>
+                      <div class="text-white">{{ food.name }}</div>
+                      <div class="text-white">{{ food.price }}</div>
+                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
                     </div>
                   </div>
                 </v-card-text>
@@ -107,7 +109,7 @@
                       <span>{{ dishe.money }}</span>
                     </v-card-subtitle>
                     <v-card-title>{{ dishe.money }}</v-card-title>
-                    <v-btn @click="addToOrder(dishe)" color="orange">Buy</v-btn>
+                    <v-btn @click="addToOrder(dishe)" color="orange" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
                   </v-card-item>
                   <v-card-text>
                     <v-row align="center" class="mx-0">
@@ -186,20 +188,20 @@
               </v-toolbar>
               <v-card class="ma-2 mt-n2" color="transparent" flat>
                 <v-card-text class="ml-14 mt-n2" style="max-height: 350px; overflow-y: auto; margin-bottom: 20px;">
-                  <div v-if="orderedDishes.length === 0" style="background-color: #424242; color: white; padding: 20px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
-                    <div class="no-order-message">Tidak ada pesanan :(</div>
-                    <div class="order-prompt">Ayo, pesan makanan favoritmu sekarang!</div>
+                  <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #ffccbc, #ffab91); color: black; padding: 20px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
+                    <div class="no-order-message" style="background: linear-gradient(to right, #ff7e5f, #feb47b); color: black;">Tidak ada pesanan :(</div>
+                    <div class="order-prompt" style="color: black;">Ayo, pesan makanan favoritmu sekarang!</div>
                   </div>
                   <div v-else>
-                    <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2">
+                    <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2" style="background: linear-gradient(to right, #ffccbc, #ffab91); border-radius: 8px; padding: 10px;">
                       <v-avatar class="mr-2" size="50">
                         <v-img :src="item.image" height="50" width="50" contain></v-img>
                       </v-avatar>
                       <div class="flex-grow-1">
-                        <div class="text-white font-weight-bold text-h6">{{ item.name }} - {{ item.price }}</div>
+                        <div class="text-black font-weight-bold text-h6">{{ item.name }} - {{ item.price }}</div> <!-- Mengubah warna teks menjadi hitam -->
                         <div class="d-flex align-center">
                           <v-icon @click="decreaseQuantity(index)" class="mr-2" x-small>mdi mdi-minus-circle-outline</v-icon>
-                          <div class="text-white">{{ item.quantity }}</div>
+                          <div class="text-black font-weight-bold" style="font-size: 1.2rem;">{{ item.quantity }}</div> <!-- Mengubah warna teks menjadi hitam -->
                           <v-icon @click="increaseQuantity(index)" class="ml-2" x-small>mdi mdi-plus-circle-outline</v-icon>
                           <v-icon @click="() => confirmDelete(index)" class="ml-2" x-small>mdi mdi-delete</v-icon>
                         </div>
@@ -212,7 +214,7 @@
 
               <v-card class="rounded-xl ma-2 pa-1 mt-n2" variant="" elevation="16">
                 <v-chip variant="text" class="mRight"> Promotion Code </v-chip>
-                <v-chip variant="flat" color="orange"> Purchase </v-chip>
+                <v-chip variant="flat" color="orange" style="background: linear-gradient(to right, #ffccbc, #ffab91);"> Purchase </v-chip>
               </v-card>
               <v-card color="transparent" class="ma-2 mt-5" flat style="max-height: 150px;">
                 <v-list density="comfortable" class="text-white">
@@ -239,7 +241,7 @@
                 variant="flat" 
                 color="black" 
                 class="px-10 mLeft" 
-                style="margin-top: 20px;" 
+                style="margin-top: 20px; background: linear-gradient(to right, #ffccbc, #ffab91); font-weight: bold; color: #FFD700;" 
                 @click="submitOrder"
                 :disabled="orderedDishes.length === 0" 
                 :class="{ 'hover-effect': orderedDishes.length > 0 }"
@@ -277,12 +279,12 @@
         <v-card-text>
           <div class="d-flex flex-wrap" style="background-color: #424242; padding: 20px; border-radius: 8px;">
             <div v-for="(dish, i) in moreDishes" :key="i" class="text-center" style="margin: 10px; width: calc(25% - 20px);">
-              <v-avatar color="#605850" size="70">
+              <v-avatar color="#605850" size="70" @click="openFoodModal(dish)">
                 <v-img :src="dish.image" height="50"></v-img>
               </v-avatar>
               <div class="text-white">{{ dish.name }}</div>
               <div class="text-white">{{ dish.money }}</div>
-              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2">Buy</v-btn>
+              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
             </div>
           </div>
         </v-card-text>
@@ -299,7 +301,7 @@
         <v-card-text>
           <span v-if="popupTitle === 'Pesanan Dikirim!'">{{ popupMessage }}</span>
           <span v-else-if="popupTitle === 'Dihapus!'">{{ popupMessage }}</span>
-          <span v-else> Tidak ada pesanan. 😢 </span>
+          <!-- <span v-else> Tidak ada pesanan. 😢 </span> -->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -308,9 +310,28 @@
       </v-card>
     </v-dialog>
 
-    <div v-if="orderedDishes.length === 0" class="no-order-message">
+    <v-dialog v-model="showFoodModal" max-width="400px">
+      <v-card :style="{ background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)' }">
+        <v-card-title class="d-flex justify-between align-center">
+          <span class="text-h6">Food Detail</span>
+          <span @click="showFoodModal = false" class="text-white" style="cursor: pointer; margin-left: auto;">Close</span>
+        </v-card-title>
+        <v-card-subtitle class="text-white text-center">{{ selectedFood.name }}</v-card-subtitle>
+        <v-card-subtitle class="text-white text-center">Informasi lengkap tentang makanan yang Anda pilih.</v-card-subtitle>
+        <v-card-text>
+          <v-img :src="selectedFood.image" height="150" class="mb-2" contain></v-img> <!-- Memperbesar gambar -->
+          <div class="text-white text-center">Price: {{ selectedFood.price }}</div>
+          <div class="d-flex justify-center align-center mt-2">
+            <v-text-field v-model="quantity" type="number" min="1" label="Quantity" class="mt-2" style="width: 60px;"></v-text-field>
+            <v-btn color="orange" @click="addToOrderWithQuantity(selectedFood)" class="ml-2">Order</v-btn> <!-- Ganti Add to Order menjadi Order -->
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <!-- <div v-if="orderedDishes.length === 0" class="no-order-message">
       Tidak ada pesanan. 😢
-    </div>
+    </div> -->
   </v-app>
 </template>
 
@@ -322,6 +343,8 @@ import Swal from 'sweetalert2';
 const searchQuery = ref('');
 const filteredFoods = ref([]);
 const filteredDishes = ref([]);
+const sortOption = ref('All Items'); // Default sort option
+const sortOptions = ['All Items', 'Price: Low to High', 'Price: High to Low'];
 const foods = [
   { image: "2.png", name: "Burger", price: "$5.00", category: "Fast food" },
   { image: "3.png", name: "Pizza", price: "$8.00", category: "Italian food" },
@@ -369,6 +392,9 @@ const popupMessage = ref('');
 const popupTitle = ref('');
 const confirmDeleteIndex = ref(null); // Menyimpan index item yang akan dihapus
 const selectedCategory = ref(''); // Menyimpan kategori yang dipilih
+const showFoodModal = ref(false);
+const selectedFood = ref({});
+const quantity = ref(1);
 
 const calculateSubTotal = computed(() => {
   return orderedDishes.value.reduce((total, item) => {
@@ -468,6 +494,51 @@ function surpriseMe() {
   // Logika untuk menampilkan makanan acak
   filteredFoods.value = foods.sort(() => 0.5 - Math.random()).slice(0, 5); // Contoh: ambil 5 makanan acak
   filteredDishes.value = dishes.sort(() => 0.5 - Math.random()).slice(0, 5);
+}
+
+function sortItems() {
+  if (sortOption.value === 'All Items') {
+    // Menampilkan semua item
+    filteredFoods.value = foods.slice(); // Menampilkan semua foods
+  } else if (sortOption.value === 'Price: Low to High') {
+    // Mengurutkan berdasarkan harga
+    filteredFoods.value.sort((a, b) => parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', '')));
+  } else if (sortOption.value === 'Price: High to Low') {
+    // Mengurutkan berdasarkan harga
+    filteredFoods.value.sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
+  }
+  // Memperbarui tampilan kategori setelah pengurutan
+  filteredFoods.value = filteredFoods.value.slice(0, 8); // Menampilkan 8 item setelah pengurutan
+}
+
+const sortedFilteredFoods = computed(() => {
+  return [...filteredFoods.value].sort((a, b) => parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', '')));
+});
+
+const displayedFoods = computed(() => {
+  let foodsToDisplay = [...filteredFoods.value]; // Copy the filtered foods
+  if (sortOption.value === 'Price: Low to High') {
+    foodsToDisplay.sort((a, b) => parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', '')));
+  } else if (sortOption.value === 'Price: High to Low') {
+    foodsToDisplay.sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
+  }
+  return foodsToDisplay.slice(0, 8); // Return only the first 8 items
+});
+
+function openFoodModal(food) {
+  selectedFood.value = food;
+  showFoodModal.value = true;
+}
+
+function addToOrderWithQuantity(food) {
+  const orderItem = { 
+    name: food.name, 
+    price: food.price, 
+    quantity: quantity.value 
+  };
+  orderedDishes.value.push(orderItem);
+  showFoodModal.value = false;
+  quantity.value = 1; // Reset quantity after adding
 }
 </script>
 
@@ -590,4 +661,86 @@ export default {
   text-align: center; /* Pusatkan teks */
   margin-top: 20px; /* Tambahkan margin untuk jarak */
 }
+.bg-grey-900 {
+  background-color: #424242; /* Warna latar belakang yang lebih menarik */
+}
+
+.v-select {
+  max-width: 150px; /* Atur lebar maksimum dropdown */
+  margin-left: 0; /* Posisikan di kiri */
+}
+
+.v-select .v-input__control {
+  height: 50px; /* Atur tinggi dropdown */
+  background: linear-gradient(to right, #ffccbc, #ffab91); /* Latar belakang gradien */
+}
+
+.v-select .v-input__slot {
+  padding: 0 16px; /* Tambahkan padding untuk ruang di dalam dropdown */
+}
+
+.custom-select .v-input__control {
+  border-radius: 8px; /* Menambahkan border radius */
+}
+
+.custom-select .v-input__control:focus {
+  background: linear-gradient(to right, #ffccbc, #ffab91); /* Latar belakang gradien saat fokus */
+}
+
+.category-item {
+  margin: 10px;
+  width: 120px;
+  background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center; /* Pusatkan teks */
+  display: flex;
+  flex-direction: column; /* Atur item dalam kolom */
+  align-items: center; /* Pusatkan item secara horizontal */
+}
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
