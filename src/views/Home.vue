@@ -4,15 +4,15 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="8">
-            <div class="d-flex justify-space-between my-5">
+          <v-col cols="12" sm="8" class="d-flex flex-column">
+            <div class="d-flex justify-space-between my-5 flex-wrap">
               <v-text-field
                 density="compact"
                 placeholder="Search restaurant, Food, Cuisine or a Dish"
                 append-inner-icon="mdi-magnify"
                 variant="outlined"
                 rounded
-                class="text-white mx-8 placeholder"
+                class="text-white mx-8 placeholder flex-grow-1"
                 v-model="searchQuery" 
                 @input="filterItems"
                 style="color: white;" 
@@ -28,12 +28,12 @@
               ></v-select>
             </div>
 
-            <div class="d-flex justify-start my-5 ml-3">
-              <v-btn @click="surpriseMe" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ff7e5f, #feb47b);">Surprise me!</v-btn>
-              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ffccbc, #ffab91);">Dessert</v-btn>
-              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ffccbc, #ffab91);">Italian food</v-btn>
-              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2" style="margin-right: 10px; background: linear-gradient(to right, #ffccbc, #ffab91);">Fast food</v-btn>
-              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Asian food</v-btn>
+            <div class="d-flex justify-start my-5 flex-wrap">
+              <v-btn @click="surpriseMe" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">Surprise me!</v-btn>
+              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Dessert</v-btn>
+              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Italian food</v-btn>
+              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Fast food</v-btn>
+              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Asian food</v-btn>
             </div>
 
             <v-toolbar color="transparent" class="pr-1 mt-n2">
@@ -43,17 +43,17 @@
               <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey" @click="showModal = true"></v-btn>
             </v-toolbar>
             <h6 class="text-white ml-4 mt-n4">
-              <span class="text-red">10+ new </span> Categories added this week
+              <span class="text-red">{{ filteredFoods.length }} new </span> Categories added this week
             </h6>
 
-            <div class="d-flex justify-space-evenly mt-4" color="transparent">
+            <div class="d-flex justify-space-evenly mt-4 flex-wrap">
               <div v-for="(food, i) in displayedFoods" :key="i" class="text-center">
                 <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
                   <v-img :src="food.image" height="50"></v-img>
                 </v-avatar>
                 <div class="text-white">{{ food.name }}</div>
                 <div class="text-white">{{ food.price }}</div>
-                <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
+                <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
               </div>
             </div>
 
@@ -68,7 +68,7 @@
                       </v-avatar>
                       <div class="text-white">{{ food.name }}</div>
                       <div class="text-white">{{ food.price }}</div>
-                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
+                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
                     </div>
                   </div>
                   <div class="d-flex flex-wrap justify-center mt-4">
@@ -78,7 +78,7 @@
                       </v-avatar>
                       <div class="text-white">{{ food.name }}</div>
                       <div class="text-white">{{ food.price }}</div>
-                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
+                      <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
                     </div>
                   </div>
                 </v-card-text>
@@ -96,35 +96,31 @@
               <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey" @click="showMoreDishes"></v-btn>
             </v-toolbar>
             <h6 class="text-white ml-4 mt-n4">
-              <span class="text-red">20+ new </span> dishes added this week
+              <span class="text-red">{{ filteredDishes.length }} new </span> dishes added this week
             </h6>
 
             <v-carousel hide-delimiter :cycle="!carouselPaused" :interval="3000" @mouseover="pauseCarousel" @mouseleave="resumeCarousel">
               <v-carousel-item v-for="(dishe, i) in filteredDishes" :key="i" :src="dishe.image">
-                <v-card class="mt-n10" width="160" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f);">
-                  <v-card-item class="text-center">
-                    <v-card-title class="mt-10">{{ dishe.name }}</v-card-title>
-                    <v-card-subtitle>
-                      <span class="me-1">Starting From</span>
-                      <span>{{ dishe.money }}</span>
-                    </v-card-subtitle>
-                    <v-card-title>{{ dishe.money }}</v-card-title>
-                    <v-btn @click="addToOrder(dishe)" color="orange" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
-                  </v-card-item>
-                  <v-card-text>
-                    <v-row align="center" class="mx-0">
-                      <v-icon color="yellow" icon="mdi mdi-star" size="small"></v-icon>
-                      <div class="text-grey ms-4">
-                        <h6>{{ dishe.star }}</h6>
+                <div class="carousel-content">
+                  <v-card class="mt-n10" width="250" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f); padding: 20px; text-align: center;"> <!-- Menambahkan padding dan text-align -->
+                    <v-card-item>
+                      <v-card-title class="mt-2">{{ dishe.name }}</v-card-title>
+                      <v-card-subtitle>
+                        <span class="me-1">Starting From</span>
+                        <span>{{ dishe.money }}</span>
+                      </v-card-subtitle>
+                      <v-card-title class="mt-1">{{ dishe.money }}</v-card-title>
+                      <v-btn @click="addToOrder(dishe)" color="orange" style="background: linear-gradient(to right, #ffccbc, #ffab91); margin-top: 10px;">Order</v-btn>
+                      <div class="mt-2">
+                        <span class="text-yellow">{{ dishe.star }} ⭐</span> 
+                        <span class="text-white">({{ Math.floor(Math.random() * 100) + 1 }} ratings)</span>
                       </div>
-                      <v-spacer></v-spacer>
-                      <div class="text-grey ms-4">
-                        1360
-                        <h5>Total Sale</h5>
+                      <div class="mt-1">
+                        <span class="text-white">Ordered: {{ orderedDishes.length }} Dishes</span>
                       </div>
-                    </v-row>
-                  </v-card-text>
-                </v-card>
+                    </v-card-item>
+                  </v-card>
+                </div>
               </v-carousel-item>
             </v-carousel>
 
@@ -135,7 +131,7 @@
               <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey"></v-btn>
             </v-toolbar>
             <h6 class="text-white ml-4 mt-n4">
-              <span class="text-red">Wow 100+ new </span> Order got this week
+              <span class="text-red">Wow {{ orderedDishes.length }} new </span> Order got this week
             </h6>
             <v-card class="rounded-xl ma-2 pa-1" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f);">
               <v-row>
@@ -198,10 +194,10 @@
                         <v-img :src="item.image" height="50" width="50" contain></v-img>
                       </v-avatar>
                       <div class="flex-grow-1">
-                        <div class="text-black font-weight-bold text-h6">{{ item.name }} - {{ item.price }}</div> <!-- Mengubah warna teks menjadi hitam -->
+                        <div class="text-black font-weight-bold text-h6">{{ item.name }} - {{ item.price }}</div>
                         <div class="d-flex align-center">
                           <v-icon @click="decreaseQuantity(index)" class="mr-2" x-small>mdi mdi-minus-circle-outline</v-icon>
-                          <div class="text-black font-weight-bold" style="font-size: 1.2rem;">{{ item.quantity }}</div> <!-- Mengubah warna teks menjadi hitam -->
+                          <div class="text-black font-weight-bold" style="font-size: 1.2rem;">{{ item.quantity }}</div>
                           <v-icon @click="increaseQuantity(index)" class="ml-2" x-small>mdi mdi-plus-circle-outline</v-icon>
                           <v-icon @click="() => confirmDelete(index)" class="ml-2" x-small>mdi mdi-delete</v-icon>
                         </div>
@@ -284,7 +280,7 @@
               </v-avatar>
               <div class="text-white">{{ dish.name }}</div>
               <div class="text-white">{{ dish.money }}</div>
-              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn> <!-- Ganti Buy menjadi Order -->
+              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
             </div>
           </div>
         </v-card-text>
@@ -301,7 +297,6 @@
         <v-card-text>
           <span v-if="popupTitle === 'Pesanan Dikirim!'">{{ popupMessage }}</span>
           <span v-else-if="popupTitle === 'Dihapus!'">{{ popupMessage }}</span>
-          <!-- <span v-else> Tidak ada pesanan. 😢 </span> -->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -319,19 +314,15 @@
         <v-card-subtitle class="text-white text-center">{{ selectedFood.name }}</v-card-subtitle>
         <v-card-subtitle class="text-white text-center">Informasi lengkap tentang makanan yang Anda pilih.</v-card-subtitle>
         <v-card-text>
-          <v-img :src="selectedFood.image" height="150" class="mb-2" contain></v-img> <!-- Memperbesar gambar -->
+          <v-img :src="selectedFood.image" height="150" class="mb-2" contain></v-img>
           <div class="text-white text-center">Price: {{ selectedFood.price }}</div>
           <div class="d-flex justify-center align-center mt-2">
             <v-text-field v-model="quantity" type="number" min="1" label="Quantity" class="mt-2" style="width: 60px;"></v-text-field>
-            <v-btn color="orange" @click="addToOrderWithQuantity(selectedFood)" class="ml-2">Order</v-btn> <!-- Ganti Add to Order menjadi Order -->
+            <v-btn color="orange" @click="addToOrderWithQuantity(selectedFood)" class="ml-2">Order</v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-dialog>
-
-    <!-- <div v-if="orderedDishes.length === 0" class="no-order-message">
-      Tidak ada pesanan. 😢
-    </div> -->
   </v-app>
 </template>
 
@@ -343,7 +334,7 @@ import Swal from 'sweetalert2';
 const searchQuery = ref('');
 const filteredFoods = ref([]);
 const filteredDishes = ref([]);
-const sortOption = ref('All Items'); // Default sort option
+const sortOption = ref('All Items');
 const sortOptions = ['All Items', 'Price: Low to High', 'Price: High to Low'];
 const foods = [
   { image: "2.png", name: "Burger", price: "$5.00", category: "Fast food" },
@@ -390,8 +381,8 @@ const carouselPaused = ref(false);
 const showPopup = ref(false);
 const popupMessage = ref('');
 const popupTitle = ref('');
-const confirmDeleteIndex = ref(null); // Menyimpan index item yang akan dihapus
-const selectedCategory = ref(''); // Menyimpan kategori yang dipilih
+const confirmDeleteIndex = ref(null);
+const selectedCategory = ref('');
 const showFoodModal = ref(false);
 const selectedFood = ref({});
 const quantity = ref(1);
@@ -458,17 +449,16 @@ function submitOrder() {
 function confirmOrder() {
   console.log("Pesanan telah dikirim:", orderedDishes.value);
   popupTitle.value = 'Pesanan Dikirim!';
-  popupMessage.value = 'Pesanan Anda telah berhasil dikirim 😊😊😊'; // Menambahkan emot senang
+  popupMessage.value = 'Pesanan Anda telah berhasil dikirim 😊😊😊';
   showPopup.value = true;
   orderedDishes.value = [];
   showSubmitModal.value = false;
 }
 
 function confirmDelete(index) {
-  // Hapus item langsung tanpa konfirmasi
   removeFromOrder(index);
   popupTitle.value = 'Dihapus!';
-  popupMessage.value = 'Item telah dihapus dari pesanan 😢😢😢'; // Menambahkan emot sedih
+  popupMessage.value = 'Item telah dihapus dari pesanan 😢😢😢';
   showPopup.value = true;
 }
 
@@ -486,29 +476,23 @@ function filterByCategory(category) {
   filteredDishes.value = dishes.filter(dish => dish.category === category);
 }
 
-// Inisialisasi filteredDishes dan filteredFoods dengan semua item pada awalnya
 filteredFoods.value = foods;
 filteredDishes.value = dishes;
 
 function surpriseMe() {
-  // Logika untuk menampilkan makanan acak
-  filteredFoods.value = foods.sort(() => 0.5 - Math.random()).slice(0, 5); // Contoh: ambil 5 makanan acak
+  filteredFoods.value = foods.sort(() => 0.5 - Math.random()).slice(0, 5);
   filteredDishes.value = dishes.sort(() => 0.5 - Math.random()).slice(0, 5);
 }
 
 function sortItems() {
   if (sortOption.value === 'All Items') {
-    // Menampilkan semua item
-    filteredFoods.value = foods.slice(); // Menampilkan semua foods
+    filteredFoods.value = foods.slice();
   } else if (sortOption.value === 'Price: Low to High') {
-    // Mengurutkan berdasarkan harga
     filteredFoods.value.sort((a, b) => parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', '')));
   } else if (sortOption.value === 'Price: High to Low') {
-    // Mengurutkan berdasarkan harga
     filteredFoods.value.sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
   }
-  // Memperbarui tampilan kategori setelah pengurutan
-  filteredFoods.value = filteredFoods.value.slice(0, 8); // Menampilkan 8 item setelah pengurutan
+  filteredFoods.value = filteredFoods.value.slice(0, 8);
 }
 
 const sortedFilteredFoods = computed(() => {
@@ -516,13 +500,13 @@ const sortedFilteredFoods = computed(() => {
 });
 
 const displayedFoods = computed(() => {
-  let foodsToDisplay = [...filteredFoods.value]; // Copy the filtered foods
+  let foodsToDisplay = [...filteredFoods.value];
   if (sortOption.value === 'Price: Low to High') {
     foodsToDisplay.sort((a, b) => parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', '')));
   } else if (sortOption.value === 'Price: High to Low') {
     foodsToDisplay.sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
   }
-  return foodsToDisplay.slice(0, 8); // Return only the first 8 items
+  return foodsToDisplay.slice(0, 8);
 });
 
 function openFoodModal(food) {
@@ -538,7 +522,7 @@ function addToOrderWithQuantity(food) {
   };
   orderedDishes.value.push(orderItem);
   showFoodModal.value = false;
-  quantity.value = 1; // Reset quantity after adding
+  quantity.value = 1;
 }
 </script>
 
@@ -657,34 +641,34 @@ export default {
   font-weight: bold;
 }
 .no-order-message {
-  color: white; /* Pastikan teks terlihat */
-  text-align: center; /* Pusatkan teks */
-  margin-top: 20px; /* Tambahkan margin untuk jarak */
+  color: white;
+  text-align: center;
+  margin-top: 20px;
 }
 .bg-grey-900 {
-  background-color: #424242; /* Warna latar belakang yang lebih menarik */
+  background-color: #424242;
 }
 
 .v-select {
-  max-width: 150px; /* Atur lebar maksimum dropdown */
-  margin-left: 0; /* Posisikan di kiri */
+  max-width: 150px;
+  margin-left: 0;
 }
 
 .v-select .v-input__control {
-  height: 50px; /* Atur tinggi dropdown */
-  background: linear-gradient(to right, #ffccbc, #ffab91); /* Latar belakang gradien */
+  height: 50px;
+  background: linear-gradient(to right, #ffccbc, #ffab91);
 }
 
 .v-select .v-input__slot {
-  padding: 0 16px; /* Tambahkan padding untuk ruang di dalam dropdown */
+  padding: 0 16px;
 }
 
 .custom-select .v-input__control {
-  border-radius: 8px; /* Menambahkan border radius */
+  border-radius: 8px;
 }
 
 .custom-select .v-input__control:focus {
-  background: linear-gradient(to right, #ffccbc, #ffab91); /* Latar belakang gradien saat fokus */
+  background: linear-gradient(to right, #ffccbc, #ffab91);
 }
 
 .category-item {
@@ -693,52 +677,43 @@ export default {
   background: linear-gradient(to bottom, #ff7e5f, #feb47b);
   padding: 10px;
   border-radius: 8px;
-  text-align: center; /* Pusatkan teks */
+  text-align: center;
   display: flex;
-  flex-direction: column; /* Atur item dalam kolom */
-  align-items: center; /* Pusatkan item secara horizontal */
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .mRight {
+    margin-right: 20px;
+  }
+  .mLeft {
+    margin-left: 20px;
+  }
+  .text-h6 {
+    font-size: 1.1rem;
+  }
+  .category-item {
+    width: 100%;
+    margin: 5px 0; 
+  }
+  .d-flex {
+    flex-direction: column; 
+  }
+}
+
+.carousel-content {
+  display: none; 
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.v-carousel-item:hover .carousel-content {
+  display: block; 
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
