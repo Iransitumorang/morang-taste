@@ -235,7 +235,7 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text @click="applyPromoAndClear">Apply</v-btn>
-                    <v-btn text @click="showPromoModal = false">Close</v-btn>
+                    <v-btn text @click="showPromoModal = false" class="hover-button" style="color: red;">Close</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -363,7 +363,7 @@
       <v-card :style="{ background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)' }">
         <v-card-title class="d-flex justify-between align-center">
           <span class="text-h6">Food Detail</span>
-          <span @click="showFoodModal = false" class="text-white" style="cursor: pointer; margin-left: auto;">Close</span>
+          <span @click="showFoodModal = false" class="text-white hover-button" style="cursor: pointer; margin-left: auto;">Close</span>
         </v-card-title>
         <v-card-subtitle class="text-white text-center font-weight-bold mb-2" style="font-size: 1.5rem;">{{ selectedFood.name }}</v-card-subtitle>
         <v-card-subtitle class="text-white text-center">Discover the delightful flavors and unique <br/> ingredients of your chosen dish!</v-card-subtitle>
@@ -918,6 +918,7 @@ export default {
   color: red;
 }
 </style>
+
 
 
 

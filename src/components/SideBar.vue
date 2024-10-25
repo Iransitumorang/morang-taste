@@ -58,12 +58,25 @@
       <v-card class="gradient-background">
         <v-card-title class="headline">Pengaturan</v-card-title>
         <v-card-text>
-          <p>Di sini Anda dapat mengatur preferensi aplikasi Anda. 
-             Sesuaikan pengaturan sesuai kebutuhan Anda untuk pengalaman yang lebih baik.</p>
+          <p>Di sini Anda dapat mengatur preferensi aplikasi Anda. Sesuaikan pengaturan sesuai kebutuhan Anda untuk pengalaman yang lebih baik.</p>
         </v-card-text>
         <v-card-actions>
           <div style="margin-left: auto;">
-            <v-btn color="primary" @click="settingsDialog = false">Close</v-btn>
+            <v-btn class="gradient-button" @click="settingsDialog = false">Close</v-btn>
+          </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialog" max-width="600px">
+      <v-card class="gradient-background">
+        <v-card-title class="headline">Notifikasi</v-card-title>
+        <v-card-text>
+          <p>🎉 Dapatkan penawaran spesial hari ini! Jangan lewatkan kesempatan untuk membeli produk unggulan kami dengan diskon menarik!</p>
+        </v-card-text>
+        <v-card-actions>
+          <div style="margin-left: auto;">
+            <v-btn class="gradient-button" @click="dialog = false">Close</v-btn>
           </div>
         </v-card-actions>
       </v-card>
