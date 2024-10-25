@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" :style="{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }">
+  <v-app id="inspire" :style="{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }" :class="{ 'blur-background': showPopup || showSubmitModal || showPromoModal || showFoodModal || showMoreModal }">
     <SideBare />
     <v-main>
       <v-container>
@@ -116,13 +116,13 @@
                   <v-col cols="12" sm="1"> </v-col>
                   <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Customer</span></v-col>
                   <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Order number</span></v-col>
-                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">address</span></v-col>
+                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Address</span></v-col>
                   <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Amount</span></v-col>
                   <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Status</span></v-col>
                   <v-col cols="12" sm="1" class="text-center"></v-col>
                 </v-row>
               </v-card>
-              <v-row class="mt-2 ms-3" v-if="orderedDishes.length > 0">
+              <v-row class="mt-2 ms-3">
                 <v-col cols="12" sm="3" class="mt-2"> 
                   <v-avatar> <v-img src="20.jpg" alt="John"></v-img> </v-avatar>
                   <span class="text-caption text-white ml-1">Jenetta Sinaga</span>
@@ -141,7 +141,7 @@
                 </v-col>
                 <v-col cols="12" sm="1" class="text-center"></v-col>
               </v-row>
-              <v-row class="mt-1 ms-3" v-if="orderedDishes.length > 0">
+              <v-row class="mt-1 ms-3">
                 <v-col cols="12" sm="3" class="mt-2"> 
                   <v-avatar> <v-img src="30.jpg" alt="John"></v-img> </v-avatar>
                   <span class="text-caption text-white ml-1">Peter Situmorang</span>
@@ -223,9 +223,9 @@
 
               <v-dialog v-model="showPromoModal" max-width="400px">
                 <v-card :style="{ background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)' }">
-                  <v-card-title class="text-h6">Enter Promotion Code</v-card-title>
+                  <v-card-title class="text-h6">Enter Promo Code</v-card-title>
                   <v-card-text>
-                    <v-text-field v-model="promoCode" label="Promotion Code"></v-text-field>
+                    <v-text-field v-model="promoCode" label="Promo Code" />
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -234,33 +234,39 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-card color="transparent" class="ma-2 mt-5" flat style="max-height: 200px;">
-                <v-list density="comfortable" class="text-white">
-                  <v-list-item title="Sub Total">
-                    <template v-slot:append>
-                      <v-btn variant="text">{{ calculateSubTotal.length === 0 ? '$0.00' : '$' + calculateSubTotal }}</v-btn>
-                    </template>
-                  </v-list-item>
 
-                  <v-list-item title="Discount">
-                    <template v-slot:append>
-                      <v-btn variant="text">{{ discountAmount === '$0.00' ? '$0.00' : discountAmount }}</v-btn>
-                    </template>
-                  </v-list-item>
+              <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #ff7e5f, #feb47b); color: white; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s; margin-top: 20px; margin-left: 10px; margin-right: 10px;">
+                <div class="text-caption" style="color: white; font-size: 1.5rem;">Cobalah makanan lezat kami!</div>
+                <div class="text-caption" style="color: white; font-size: 1.2rem;">Nikmati pengalaman kuliner yang tak terlupakan, sekarang juga.</div>
+                <div class="text-caption" style="color: white; font-size: 1.2rem;">Pesan sekarang dan rasakan kelezatannya!</div>
+              </div>
 
-                  <v-list-item title="Delivery Charge">
-                    <template v-slot:append>
-                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0.00' : '$10' }}</v-btn>
-                    </template>
-                  </v-list-item>
+              <div v-if="orderedDishes.length > 0">
+                <v-list-item title="Sub Total">
+                  <template v-slot:append>
+                    <v-btn variant="text">{{ '$' + calculateSubTotal }}</v-btn>
+                  </template>
+                </v-list-item>
 
-                  <v-list-item title="TOTAL">
-                    <template v-slot:append>
-                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0.00' : '$' + calculateTotalWithDiscount }}</v-btn>
-                    </template>
-                  </v-list-item>
-                </v-list>
-              </v-card>
+                <v-list-item title="Discount">
+                  <template v-slot:append>
+                    <v-btn variant="text">{{ discountAmount }}</v-btn>
+                  </template>
+                </v-list-item>
+
+                <v-list-item title="Service Charge">
+                  <template v-slot:append>
+                    <v-btn variant="text">{{ '$10' }}</v-btn>
+                  </template>
+                </v-list-item>
+
+                <v-list-item title="TOTAL">
+                  <template v-slot:append>
+                    <v-btn variant="text">{{ '$' + calculateTotalWithDiscount }}</v-btn>
+                  </template>
+                </v-list-item>
+              </div>
+
               <v-chip 
                 variant="flat" 
                 color="black" 
@@ -273,8 +279,8 @@
                 Submit Order
               </v-chip>
 
-              <v-dialog v-model="showSubmitModal" max-width="600px" class="confirm-order-dialog" style="justify-content: center; align-items: center;">
-                <v-card>
+              <v-dialog v-model="showSubmitModal" max-width="800px" class="confirm-order-dialog" style="display: flex; justify-content: center; align-items: center; width: 800px; height: 600px;">
+                <v-card style="margin: auto;">
                   <v-card-title class="text-h6 text-center" style="font-weight: bold; background: linear-gradient(to right, #ff7e5f, #feb47b); color: white; padding: 16px;">Confirm Order</v-card-title>
                   <v-card-text>
                     <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex justify-space-between item-row">
@@ -290,7 +296,11 @@
                       <span class="text-white confirm-discount">{{ discountAmount }}</span>
                     </div>
                     <div class="mt-2 total-price d-flex justify-space-between">
-                      <strong>Total After Discount</strong>
+                      <strong>Service Charge</strong>
+                      <span class="text-white confirm-total">$10</span>
+                    </div>
+                    <div class="mt-2 total-price d-flex justify-space-between">
+                      <strong>Total After Disc</strong>
                       <span class="text-white confirm-total">${{ calculateTotalWithDiscount }}</span>
                     </div>
                   </v-card-text>
@@ -527,13 +537,13 @@ function confirmOrder() {
   showPopup.value = true;
   orderedDishes.value = [];
   discountAmount.value = '$0.00';
-  showSubmitModal.value = false;
+  showSubmitModal.value = false; 
 }
 
 function confirmDelete(index) {
   removeFromOrder(index);
   popupTitle.value = 'Dihapus!';
-  popupMessage.value = 'Item telah dihapus dari pesanan 😢😢😢';
+  popupMessage.value = 'Item telah dihapus dari pesanan 😢😢';
   showPopup.value = true;
 }
 
@@ -606,7 +616,7 @@ function applyPromo() {
     const discount = 1;
     discountAmount.value = `-$${discount}`;
     popupTitle.value = 'Promo Applied Successfully!';
-    popupMessage.value = `You have received a $${discount} discount! New total: $${calculateTotalWithDiscount.value}`;
+    popupMessage.value = `Anda telah menerima diskon sebesar $${discount}! Total baru: $${calculateTotalWithDiscount.value}`;
     
     console.log("Popup Title:", popupTitle.value);
     console.log("Discount Amount:", discountAmount.value);
@@ -864,35 +874,12 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
+.blur-background {
+  filter: blur(5px);
+  transition: filter 0.3s ease;
+}
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
