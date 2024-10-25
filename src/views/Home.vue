@@ -234,29 +234,29 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-card color="transparent" class="ma-2 mt-5" flat style="max-height: 150px;">
+              <v-card color="transparent" class="ma-2 mt-5" flat style="max-height: 200px;">
                 <v-list density="comfortable" class="text-white">
                   <v-list-item title="Sub Total">
                     <template v-slot:append>
-                      <v-btn variant="text"><v-icon left>mdi-currency-usd</v-icon>{{ calculateSubTotal }}</v-btn>
+                      <v-btn variant="text">{{ calculateSubTotal.length === 0 ? '$0.00' : '$' + calculateSubTotal }}</v-btn>
                     </template>
                   </v-list-item>
 
-                  <!-- <v-list-item title="Discount">
+                  <v-list-item title="Discount">
                     <template v-slot:append>
-                      <v-btn variant="text">{{ discountAmount }}</v-btn>
+                      <v-btn variant="text">{{ discountAmount === '$0.00' ? '$0.00' : discountAmount }}</v-btn>
                     </template>
-                  </v-list-item> -->
+                  </v-list-item>
 
                   <v-list-item title="Delivery Charge">
                     <template v-slot:append>
-                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0' : '$10' }}</v-btn>
+                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0.00' : '$10' }}</v-btn>
                     </template>
                   </v-list-item>
 
                   <v-list-item title="TOTAL">
                     <template v-slot:append>
-                      <v-btn variant="text"><v-icon left>mdi-currency-usd</v-icon>{{ calculateTotalWithDiscount }}</v-btn>
+                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0.00' : '$' + calculateTotalWithDiscount }}</v-btn>
                     </template>
                   </v-list-item>
                 </v-list>
@@ -273,20 +273,30 @@
                 Submit Order
               </v-chip>
 
-              <v-dialog v-model="showSubmitModal" max-width="400px" class="confirm-order-dialog" style="justify-content: center; align-items: center;">
+              <v-dialog v-model="showSubmitModal" max-width="600px" class="confirm-order-dialog" style="justify-content: center; align-items: center;">
                 <v-card>
-                  <v-card-title class="text-h6">Confirm Order</v-card-title>
+                  <v-card-title class="text-h6 text-center" style="font-weight: bold; background: linear-gradient(to right, #ff7e5f, #feb47b); color: white; padding: 16px;">Confirm Order</v-card-title>
                   <v-card-text>
                     <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex justify-space-between item-row">
                       <span>{{ item.name }} - {{ item.price }} (x{{ item.quantity }})</span>
                     </div>
-                    <div class="mt-2 total-price">
-                      <strong>Total: ${{ calculateTotal }}</strong>
+                    <v-divider class="my-"></v-divider>
+                    <div class="mt-5 total-price d-flex justify-space-between">
+                      <strong>Sub Total</strong>
+                      <span class="text-white confirm-total">${{ calculateSubTotal }}</span>
+                    </div>
+                    <div class="mt-2 total-price d-flex justify-space-between">
+                      <strong>Discount</strong>
+                      <span class="text-white confirm-discount">{{ discountAmount }}</span>
+                    </div>
+                    <div class="mt-2 total-price d-flex justify-space-between">
+                      <strong>Total After Discount</strong>
+                      <span class="text-white confirm-total">${{ calculateTotalWithDiscount }}</span>
                     </div>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="showSubmitModal = false" class="hover-button">Batal</v-btn>
+                    <v-btn text @click="showSubmitModal = false" class="hover-button" style="color: red;">Batal</v-btn>
                     <v-btn color="orange" @click="confirmOrder" class="hover-button">Kirim</v-btn>
                   </v-card-actions>
                 </v-card>
@@ -516,6 +526,7 @@ function confirmOrder() {
   popupMessage.value = 'Pesanan Anda telah berhasil dikirim 😊😊😊';
   showPopup.value = true;
   orderedDishes.value = [];
+  discountAmount.value = '$0.00'; // Reset discount amount to $0
   showSubmitModal.value = false;
 }
 
@@ -670,10 +681,9 @@ export default {
   margin-bottom: 5px;
 }
 .total-price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-align: center;
-  color: black;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
 }
 .hover-button:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -851,6 +861,21 @@ export default {
   align-items: center; /* Mengatur item agar berada di tengah */
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
