@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" :style="{ background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)' }">
+  <v-app id="inspire" :style="{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }">
     <SideBare />
     <v-main>
       <v-container>
@@ -60,7 +60,7 @@
                   <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
                     <v-img :src="food.image" height="50" class="zoom-out"></v-img>
                   </v-avatar>
-                  <div class="text-white">{{ food.name }}</div>
+                  <div class="text-white font-weight-bold">{{ food.name }}</div>
                   <div class="text-white">{{ food.price }}</div>
                   <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
                 </div>
@@ -325,6 +325,7 @@
         <v-card-text>
           <span v-if="popupTitle === 'Pesanan Dikirim!'">{{ popupMessage }}</span>
           <span v-else-if="popupTitle === 'Dihapus!'">{{ popupMessage }}</span>
+          <span v-if="popupTitle === 'Promo Applied Successfully!'">You've received a discount of {{ discountAmount }}. It's time to shop smarter!</span>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -339,10 +340,10 @@
           <span class="text-h6">Food Detail</span>
           <span @click="showFoodModal = false" class="text-white" style="cursor: pointer; margin-left: auto;">Close</span>
         </v-card-title>
-        <v-card-subtitle class="text-white text-center">{{ selectedFood.name }}</v-card-subtitle>
-        <v-card-subtitle class="text-white text-center">Informasi lengkap tentang makanan yang Anda pilih.</v-card-subtitle>
+        <v-card-subtitle class="text-white text-center font-weight-bold mb-2" style="font-size: 1.5rem;">{{ selectedFood.name }}</v-card-subtitle>
+        <v-card-subtitle class="text-white text-center">Discover the delightful flavors and unique <br/> ingredients of your chosen dish!</v-card-subtitle>
         <v-card-text>
-          <v-img :src="selectedFood.image" height="150" class="mb-2" contain></v-img>
+          <v-img :src="selectedFood.image" height="150" class="mb-2 zoom-out" contain></v-img>
           <div class="text-white text-center">Price: {{ selectedFood.price }}</div>
           <div class="d-flex justify-center align-center mt-2">
             <v-text-field v-model="quantity" type="number" min="1" label="Quantity" class="mt-2" style="width: 60px;"></v-text-field>
@@ -468,7 +469,8 @@ function addToOrder(dish) {
     orderedDishes.value.push({ 
       name: dish.name, 
       price: dish.money || dish.price,
-      quantity: 1
+      quantity: 1,
+      image: dish.image
     });
   }
 }
@@ -592,8 +594,12 @@ function applyPromo() {
   if (promoCode.value) {
     const discount = 1;
     discountAmount.value = `-$${discount}`;
-    popupTitle.value = 'Promo Applied!';
+    popupTitle.value = 'Promo Applied Successfully!';
     popupMessage.value = `You have received a $${discount} discount! New total: $${calculateTotalWithDiscount.value}`;
+    
+    console.log("Popup Title:", popupTitle.value);
+    console.log("Discount Amount:", discountAmount.value);
+    
     showPopup.value = true;
     showPromoModal.value = false;
   }
@@ -845,6 +851,12 @@ export default {
   align-items: center; /* Mengatur item agar berada di tengah */
 }
 </style>
+
+
+
+
+
+
 
 
 
