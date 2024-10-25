@@ -226,6 +226,11 @@
                   <v-card-title class="text-h6">Enter Promo Code</v-card-title>
                   <v-card-text>
                     <v-text-field v-model="promoCode" label="Promo Code" />
+                    <div class="hashtags">
+                      <span class="hashtag" @click="promoCode = 'DISCOUNT50'">#DISCOUNT50</span>
+                      <span class="hashtag" @click="promoCode = 'SAVE10'">#SAVE10</span>
+                      <span class="hashtag" @click="promoCode = 'FREESHIP'">#FREESHIP</span>
+                    </div>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -256,7 +261,7 @@
 
                 <v-list-item title="Service Charge">
                   <template v-slot:append>
-                    <v-btn variant="text">{{ '$10' }}</v-btn>
+                    <v-btn variant="text">{{ '$' + (calculateSubTotal * 0.10).toFixed(2) }}</v-btn>
                   </template>
                 </v-list-item>
 
@@ -464,6 +469,10 @@ const promoCode = ref('');
 const discountAmount = ref('$0.00');
 const categories = ['Dessert', 'Italian food', 'Fast food', 'Asian food'];
 
+const discountPercentage = 0.05;
+const deliveryChargePercentage = 0.10;
+const serviceChargePercentage = 0.10;
+
 const calculateSubTotal = computed(() => {
   return orderedDishes.value.reduce((total, item) => {
     return total + parseFloat(item.price.replace('$', '')) * item.quantity;
@@ -471,8 +480,9 @@ const calculateSubTotal = computed(() => {
 });
 
 const calculateTotal = computed(() => {
-  const deliveryCharge = 10;
-  return (parseFloat(calculateSubTotal.value) + deliveryCharge).toFixed(2);
+  const serviceCharge = parseFloat(calculateSubTotal.value) * serviceChargePercentage;
+  const deliveryCharge = parseFloat(calculateSubTotal.value) * deliveryChargePercentage;
+  return (parseFloat(calculateSubTotal.value) + serviceCharge + deliveryCharge).toFixed(2);
 });
 
 const calculateTotalWithDiscount = computed(() => {
@@ -531,7 +541,6 @@ function submitOrder() {
 }
 
 function confirmOrder() {
-  console.log("Pesanan telah dikirim:", orderedDishes.value);
   popupTitle.value = 'Pesanan Dikirim!';
   popupMessage.value = 'Pesanan Anda telah berhasil dikirim 😊😊😊';
   showPopup.value = true;
@@ -611,15 +620,12 @@ function addToOrderWithQuantity(food) {
 }
 
 function applyPromo() {
-  // Potongan $1 untuk setiap kode promo yang dimasukkan
+  // Potongan 0.5% untuk setiap kode promo yang dimasukkan
   if (promoCode.value) {
-    const discount = 1;
-    discountAmount.value = `-$${discount}`;
+    const discount = calculateSubTotal.value * discountPercentage;
+    discountAmount.value = `-$${discount.toFixed(2)}`;
     popupTitle.value = 'Promo Applied Successfully!';
-    popupMessage.value = `Anda telah menerima diskon sebesar $${discount}! Total baru: $${calculateTotalWithDiscount.value}`;
-    
-    console.log("Popup Title:", popupTitle.value);
-    console.log("Discount Amount:", discountAmount.value);
+    popupMessage.value = `You've received a discount of ${discountAmount.value}! It's time to shop smarter!`;
     
     showPopup.value = true;
     showPromoModal.value = false;
@@ -635,16 +641,14 @@ function getRandomTime() {
   return Math.floor(Math.random() * 60) + 1;
 }
 
-// Fungsi untuk mengosongkan kode promo
 function clearPromoCode() {
-  promoCode.value = ''; // Mengosongkan form kode promo
-  showPromoModal.value = false; // Menutup modal
+  promoCode.value = '';
+  showPromoModal.value = false;
 }
 
-// Fungsi untuk menerapkan promo dan mengosongkan form
 function applyPromoAndClear() {
-  applyPromo(); // Panggil fungsi applyPromo
-  promoCode.value = ''; // Mengosongkan form kode promo setelah menerapkan
+  applyPromo();
+  promoCode.value = ''; 
 }
 </script>
 
@@ -891,7 +895,26 @@ export default {
   filter: blur(5px);
   transition: filter 0.3s ease;
 }
+
+.hashtags {
+  margin-top: 10px;
+}
+
+.hashtag {
+  cursor: pointer;
+  color: #ff7e5f;
+  margin-right: 10px;
+  font-weight: bold;
+}
 </style>
+
+
+
+
+
+
+
+
 
 
 
