@@ -175,13 +175,13 @@
                   <v-icon size="16" icon="mdi mdi-clock-outline" class="mr-2"></v-icon>{{ getRandomTime() }} min</v-card-text>
               </v-card>
               <v-toolbar color="transparent" class="pr-1 mt-n2">
-                <v-btn icon class="hidden-xs-only">
+                <v-btn icon class="hidden-xs-only" style="position: relative;">
                   <v-icon>mdi mdi-cart</v-icon>
-                  <span v-if="orderedDishes.length > 0" class="text-caption" style="color: red; position: absolute; top: 0; right: 0; font-size: 0.75rem;">{{ orderedDishes.length }}</span>
+                  <span v-if="orderedDishes.length > 0" class="text-caption cart-count">{{ orderedDishes.length }}</span>
                 </v-btn>
                 <v-toolbar-title class="text-white">My Order</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <span class="text-caption text-white me-2">Order ID: #1099</span>
+                <span class="text-caption text-white me-2">Order ID: #{{ randomOrderId }}</span>
               </v-toolbar>
               <v-card class="ma-2 mt-n2" color="transparent" flat>
                 <v-card-text class="ml-14 mt-n2" style="max-height: 350px; overflow-y: auto; margin-bottom: 20px;">
@@ -472,6 +472,8 @@ const categories = ['Dessert', 'Italian food', 'Fast food', 'Asian food'];
 const discountPercentage = 0.05;
 const deliveryChargePercentage = 0.10;
 const serviceChargePercentage = 0.10;
+
+const randomOrderId = ref(Math.floor(Math.random() * 10000));
 
 const calculateSubTotal = computed(() => {
   return orderedDishes.value.reduce((total, item) => {
@@ -906,29 +908,16 @@ export default {
   margin-right: 10px;
   font-weight: bold;
 }
+
+.cart-count {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: red;
+}
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

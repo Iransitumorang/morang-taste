@@ -46,12 +46,28 @@
         size="small"
         class="mr-2 gradient-button"
         color="white"
+        @click="showSettingsDialog" 
       ></v-btn>
 
       <v-badge dot color="#FF6259">
-        <v-btn icon="mdi mdi-bell" size="small" color="#5F3B39"></v-btn>
+        <v-btn icon="mdi mdi-bell" size="small" color="#5F3B39" @click="showDialog"></v-btn>
       </v-badge>
     </v-div>
+
+    <v-dialog v-model="settingsDialog" max-width="600px">
+      <v-card class="gradient-background">
+        <v-card-title class="headline">Pengaturan</v-card-title>
+        <v-card-text>
+          <p>Di sini Anda dapat mengatur preferensi aplikasi Anda. 
+             Sesuaikan pengaturan sesuai kebutuhan Anda untuk pengalaman yang lebih baik.</p>
+        </v-card-text>
+        <v-card-actions>
+          <div style="margin-left: auto;">
+            <v-btn color="primary" @click="settingsDialog = false">Close</v-btn>
+          </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-navigation-drawer>
 </template>
 <script setup>
@@ -65,6 +81,16 @@ const links = [
 ];
 
 const drawer = ref(null);
+const dialog = ref(false);
+const settingsDialog = ref(false);  // Tambahkan ref untuk dialog pengaturan
+
+function showDialog() {
+  dialog.value = true;
+}
+
+function showSettingsDialog() {  // Fungsi untuk membuka dialog pengaturan
+  settingsDialog.value = true;
+}
 </script>
 
 <script>
@@ -100,15 +126,20 @@ export default {
   border-radius: 50%;
 }
 .gradient-background {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradien yang menarik */
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
 }
 
 .gradient-button {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradien untuk tombol */
-  color: white; /* Warna teks tombol */
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white;
 }
 
 .text-color {
-  color: white; /* Warna teks untuk item daftar */
+  color: white;
+}
+
+.v-img:hover {
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
 }
 </style>
