@@ -172,7 +172,7 @@
                   </template>
                 </v-card-item>
                 <v-card-text class="mt-n3">
-                  <v-icon size="16" icon="mdi mdi-clock-outline" class="mr-2"></v-icon>20 min</v-card-text>
+                  <v-icon size="16" icon="mdi mdi-clock-outline" class="mr-2"></v-icon>{{ getRandomTime() }} min</v-card-text>
               </v-card>
               <v-toolbar color="transparent" class="pr-1 mt-n2">
                 <v-btn icon class="hidden-xs-only">
@@ -526,7 +526,7 @@ function confirmOrder() {
   popupMessage.value = 'Pesanan Anda telah berhasil dikirim 😊😊😊';
   showPopup.value = true;
   orderedDishes.value = [];
-  discountAmount.value = '$0.00'; // Reset discount amount to $0
+  discountAmount.value = '$0.00';
   showSubmitModal.value = false;
 }
 
@@ -619,6 +619,10 @@ function applyPromo() {
 function clearSearch() {
   searchQuery.value = '';
   filterItems();
+}
+
+function getRandomTime() {
+  return Math.floor(Math.random() * 60) + 1;
 }
 </script>
 
@@ -776,11 +780,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.3s; /* Tambahkan transisi untuk efek animasi */
+  transition: transform 0.3s; 
 }
 
 .category-item:hover {
-  transform: scale(0.9); /* Zoom out item saat di-hover */
+  transform: scale(0.9);
 }
 
 @media (max-width: 768px) {
@@ -831,36 +835,38 @@ export default {
   margin-top: 10px;
 }
 .hover-effect:hover {
-  color: #ff7e5f; /* Ganti warna saat hover */
+  color: #ff7e5f;
 }
 .zoom-out {
-  transition: transform 0.3s; /* Tambahkan transisi untuk efek animasi */
+  transition: transform 0.3s;
 }
 
 .zoom-out:hover {
-  transform: scale(0.8); /* Zoom out gambar menjadi 80% dari ukuran asli saat di-hover */
+  transform: scale(0.8);
 }
 
 .dish-item {
-  margin: 0; /* Menghilangkan margin */
-  padding: 0; /* Menghilangkan padding */
-  display: flex; /* Menggunakan flexbox untuk merapikan item */
-  flex-direction: column; /* Mengatur arah kolom */
-  align-items: center; /* Mengatur item agar berada di tengah */
+  margin: 0; 
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dishes-grid {
-  display: grid; /* Menggunakan grid layout */
-  grid-template-columns: repeat(4, 1fr); /* 4 kolom dengan lebar yang sama */
-  gap: 10px; /* Jarak antar item */
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .dish-item {
-  display: flex; /* Menggunakan flexbox untuk merapikan item */
-  flex-direction: column; /* Mengatur arah kolom */
-  align-items: center; /* Mengatur item agar berada di tengah */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
+
+
 
 
 
