@@ -242,17 +242,17 @@
                     </template>
                   </v-list-item>
 
-                  <v-list-item title="Delivery Charge">
-                    <template v-slot:append>
-                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0' : '$10' }}</v-btn>
-                    </template>
-                  </v-list-item>
-
                   <!-- <v-list-item title="Discount">
                     <template v-slot:append>
                       <v-btn variant="text">{{ discountAmount }}</v-btn>
                     </template>
                   </v-list-item> -->
+
+                  <v-list-item title="Delivery Charge">
+                    <template v-slot:append>
+                      <v-btn variant="text">{{ orderedDishes.length === 0 ? '$0' : '$10' }}</v-btn>
+                    </template>
+                  </v-list-item>
 
                   <v-list-item title="TOTAL">
                     <template v-slot:append>
