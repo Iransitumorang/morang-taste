@@ -229,7 +229,7 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="applyPromo">Apply</v-btn>
+                    <v-btn text @click="applyPromoAndClear">Apply</v-btn>
                     <v-btn text @click="showPromoModal = false">Close</v-btn>
                   </v-card-actions>
                 </v-card>
@@ -634,6 +634,18 @@ function clearSearch() {
 function getRandomTime() {
   return Math.floor(Math.random() * 60) + 1;
 }
+
+// Fungsi untuk mengosongkan kode promo
+function clearPromoCode() {
+  promoCode.value = ''; // Mengosongkan form kode promo
+  showPromoModal.value = false; // Menutup modal
+}
+
+// Fungsi untuk menerapkan promo dan mengosongkan form
+function applyPromoAndClear() {
+  applyPromo(); // Panggil fungsi applyPromo
+  promoCode.value = ''; // Mengosongkan form kode promo setelah menerapkan
+}
 </script>
 
 <script>
@@ -880,6 +892,8 @@ export default {
   transition: filter 0.3s ease;
 }
 </style>
+
+
 
 
 
