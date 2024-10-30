@@ -34,7 +34,7 @@
 
             <div v-if="filteredFoods.length === 0 && searchQuery" class="text-center text-white mt-4" style="font-size: 2.5rem; background-color: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 8px;">
               <h6>Tidak ada item yang ditemukan untuk "{{ searchQuery }}".</h6>
-              <v-img src="/ue.png" alt="No items found" height="300" class="mt-2"></v-img>
+              <v-img src="/src/assets/ue.png" alt="No items found" height="300" class="mt-2"></v-img>
             </div>
 
             <div v-if="filteredFoods.length > 0" class="d-flex justify-start my-5 flex-wrap">
