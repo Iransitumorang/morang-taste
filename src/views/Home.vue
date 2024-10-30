@@ -32,8 +32,9 @@
               ></v-select>
             </div>
 
-            <div v-if="filteredFoods.length === 0 && searchQuery" class="text-center text-white mt-4" style="font-size: 2.5rem;">
+            <div v-if="filteredFoods.length === 0 && searchQuery" class="text-center text-white mt-4" style="font-size: 2.5rem; background-color: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 8px;">
               <h6>Tidak ada item yang ditemukan untuk "{{ searchQuery }}".</h6>
+              <v-img src="/ue.png" alt="No items found" height="300" class="mt-2"></v-img>
             </div>
 
             <div v-if="filteredFoods.length > 0" class="d-flex justify-start my-5 flex-wrap">
@@ -165,7 +166,7 @@
           <v-col cols="12" sm="4">
             <v-card class="rounded-xl" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f);" height="850">
               <v-card class="mx-2 mt-4 rounded-lg" max-width="344" style="background: linear-gradient(to bottom, #ff7e5f, #feb47b);">
-                <v-card-item title="Iran Situmorang">
+                <v-card-item title="Morang's Taste">
                   <template v-slot:subtitle>
                     <v-icon icon="mdi mdi-map-marker" size="18" class="me-1 pb-1"></v-icon>
                     Kuningan Barat, Jakarta Selatan
@@ -406,6 +407,7 @@
 import { ref, computed } from 'vue';
 import SideBare from "@/components/SideBar.vue";
 import Swal from 'sweetalert2'; 
+import image from '@/assets/20.jpg'; // Pastikan jalur ini sesuai
 
 const searchQuery = ref('');
 const filteredFoods = ref([]);
