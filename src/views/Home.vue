@@ -125,7 +125,7 @@
               </v-card>
               <v-row class="mt-2 ms-3">
                 <v-col cols="12" sm="3" class="mt-2"> 
-                  <v-avatar> <v-img src="20.jpg" alt="John"></v-img> </v-avatar>
+                  <v-avatar> <v-img src="/src/assets/20.jpg" alt="John"></v-img> </v-avatar>
                   <span class="text-caption text-white ml-1">Jenetta Sinaga</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
@@ -144,7 +144,7 @@
               </v-row>
               <v-row class="mt-1 ms-3">
                 <v-col cols="12" sm="3" class="mt-2"> 
-                  <v-avatar> <v-img src="30.jpg" alt="John"></v-img> </v-avatar>
+                  <v-avatar> <v-img src="/src/assets/30.jpg" alt="John"></v-img> </v-avatar>
                   <span class="text-caption text-white ml-1">Peter Situmorang</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
@@ -415,30 +415,30 @@ const filteredDishes = ref([]);
 const sortOption = ref('All Items');
 const sortOptions = ['All Items', 'Price: Low to High', 'Price: High to Low'];
 const foods = [
-  { image: "2.png", name: "Burger", price: "$5.00", category: "Fast food" },
-  { image: "3.png", name: "Pizza", price: "$8.00", category: "Italian food" },
-  { image: "4.png", name: "Sushi", price: "$10.00", category: "Asian food" },
-  { image: "5.png", name: "Pasta", price: "$7.00", category: "Italian food" },
-  { image: "6.png", name: "Salad", price: "$4.00", category: "Dessert" },
-  { image: "7.png", name: "Tacos", price: "$6.00", category: "Fast food" },
-  { image: "8.png", name: "Steak", price: "$15.00", category: "Asian food" },
-  { image: "2.png", name: "Ice Cream", price: "$3.00", category: "Dessert" },
-  { image: "4.png", name: "Brownie", price: "$2.00", category: "Dessert" },
+  { image: "/src/assets/2.png", name: "Burger", price: "$5.00", category: "Fast food" },
+  { image: "/src/assets/3.png", name: "Pizza", price: "$8.00", category: "Italian food" },
+  { image: "/src/assets/4.png", name: "Sushi", price: "$10.00", category: "Asian food" },
+  { image: "/src/assets/5.png", name: "Pasta", price: "$7.00", category: "Italian food" },
+  { image: "/src/assets/6.png", name: "Salad", price: "$4.00", category: "Dessert" },
+  { image: "/src/assets/7.png", name: "Tacos", price: "$6.00", category: "Fast food" },
+  { image: "/src/assets/8.png", name: "Steak", price: "$15.00", category: "Asian food" },
+  { image: "/src/assets/6.png", name: "Ice Cream", price: "$3.00", category: "Dessert" },
+  { image: "/src/assets/4.png", name: "Brownie", price: "$2.00", category: "Dessert" },
 ];
 
 const dishes = [
-  { image: "11.png", name: "Hamburger", money: "$10.00", star: "4.5", category: "Fast food" },
-  { image: "22.png", name: "Pizza", money: "$25.00", star: "4.1", category: "Italian food" },
-  { image: "33.png", name: "Sushi", money: "$15.00", star: "4.3", category: "Asian food" },
-  { image: "44.png", name: "Gratin", money: "$23.00", star: "4.9", category: "Italian food" },
-  { image: "2.png", name: "Pasta", money: "$12.00", star: "4.6", category: "Italian food" },
-  { image: "3.png", name: "Salad", money: "$8.00", star: "4.2", category: "Dessert" },
-  { image: "4.png", name: "Tacos", money: "$9.00", star: "4.4", category: "Fast food" },
-  { image: "5.png", name: "Steak", money: "$30.00", star: "4.8", category: "Asian food" },
-  { image: "6.png", name: "Ice Cream", money: "$5.00", star: "4.7", category: "Dessert" },
-  { image: "7.png", name: "Brownie", money: "$6.00", star: "4.5", category: "Dessert" },
-  { image: "8.png", name: "Sushi Roll", money: "$12.00", star: "4.6", category: "Asian food" },
-  { image: "9.png", name: "Pasta Primavera", money: "$14.00", star: "4.4", category: "Italian food" },
+  { image: "/src/assets/11.png", name: "Hamburger", money: "$10.00", star: "4.5", category: "Fast food" },
+  { image: "/src/assets/22.png", name: "Pizza", money: "$25.00", star: "4.1", category: "Italian food" },
+  { image: "/src/assets/33.png", name: "Sushi", money: "$15.00", star: "4.3", category: "Asian food" },
+  { image: "/src/assets/44.png", name: "Gratin", money: "$23.00", star: "4.9", category: "Italian food" },
+  { image: "/src/assets/2.png", name: "Pasta", money: "$12.00", star: "4.6", category: "Italian food" },
+  { image: "/src/assets/3.png", name: "Salad", money: "$8.00", star: "4.2", category: "Dessert" },
+  { image: "/src/assets/4.png", name: "Tacos", money: "$9.00", star: "4.4", category: "Fast food" },
+  { image: "/src/assets/5.png", name: "Steak", money: "$30.00", star: "4.8", category: "Asian food" },
+  { image: "/src/assets/6.png", name: "Ice Cream", money: "$5.00", star: "4.7", category: "Dessert" },
+  { image: "/src/assets/7.png", name: "Brownie", money: "$6.00", star: "4.5", category: "Dessert" },
+  { image: "/src/assets/8.png", name: "Sushi Roll", money: "$12.00", star: "4.6", category: "Asian food" },
+  { image: "/src/assets/9.png", name: "Pasta Primavera", money: "$14.00", star: "4.4", category: "Italian food" },
 ];
 
 const showModal = ref(false);
@@ -446,14 +446,14 @@ const selectedDish = ref({ name: '', price: '', quantity: 1 });
 const orderedDishes = ref([]);
 const showMoreModal = ref(false);
 const moreDishes = [
-  { image: "11.png", name: "Hamburger", money: "$10.00" },
-  { image: "22.png", name: "Pizza", money: "$25.00" },
-  { image: "33.png", name: "Sushi", money: "$15.00" },
-  { image: "44.png", name: "Gratin", money: "$23.00" },
-  { image: "2.png", name: "Pasta", money: "$12.00" },
-  { image: "3.png", name: "Salad", money: "$8.00" },
-  { image: "4.png", name: "Tacos", money: "$9.00" },
-  { image: "5.png", name: "Steak", money: "$30.00" },
+  { image: "/src/assets/11.png", name: "Hamburger", money: "$10.00" },
+  { image: "/src/assets/22.png", name: "Pizza", money: "$25.00" },
+  { image: "/src/assets/33.png", name: "Sushi", money: "$15.00" },
+  { image: "/src/assets/44.png", name: "Gratin", money: "$23.00" },
+  { image: "/src/assets/2.png", name: "Pasta", money: "$12.00" },
+  { image: "/src/assets/3.png", name: "Salad", money: "$8.00" },
+  { image: "/src/assets/4.png", name: "Tacos", money: "$9.00" },
+  { image: "/src/assets/5.png", name: "Steak", money: "$30.00" },
 ];
 
 const showSubmitModal = ref(false);
