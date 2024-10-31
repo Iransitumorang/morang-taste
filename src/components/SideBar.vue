@@ -134,21 +134,29 @@ export default {
   position: absolute;
   height: 15px;
   width: 15px;
-  background: linear-gradient(-90deg, #545454, #545454 50%, black 50%);
+  background: linear-gradient(-90deg, #545454, #545454 50%, rgb(151, 185, 86) 50%);
   border-radius: 50%;
 }
 .gradient-background {
-  background: linear-gradient(to right, #388e3c, #a5d6a7);
+  background: #388e3c;
 }
 .gradient-button {
-  background: linear-gradient(to right, #388e3c, #a5d6a7);
+  background: #388e3c;
   color: white;
 }
+.v-card {
+  background: #388e3c;
+}
 .text-color {
-  color: white;
+  color: black;
 }
 .v-img:hover {
   transform: scale(0.9);
   transition: transform 0.3s ease;
+}
+.v-application {
+    display: flex;
+    background: #388e3c !important;
+    color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
 }
 </style>
