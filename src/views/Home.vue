@@ -80,7 +80,7 @@
               <v-carousel hide-delimiter :cycle="!carouselPaused" :interval="3000" @mouseover="pauseCarousel" @mouseleave="resumeCarousel">
                 <v-carousel-item v-for="(dishe, i) in filteredDishes" :key="i" :src="getImage(dishe.image)">
                   <div class="carousel-content">
-                    <v-card class="mt-n10" width="250" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f); padding: 20px; text-align: center;"> 
+                    <v-card class="mt-n10" width="250" style="background: linear-gradient(to bottom, #388e3c, #a5d6a7); padding: 20px; text-align: center;"> 
                       <v-card-item>
                         <v-card-title class="mt-2">{{ dishe.name }}</v-card-title>
                         <v-card-subtitle>
@@ -191,7 +191,7 @@
                     <div class="order-prompt" style="color: white;">Ayo, pesan makanan favoritmu sekarang!</div>
                   </div>
                   <div v-else>
-                    <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2" style="background: linear-gradient(to right, #ffccbc, #ffab91); border-radius: 8px; padding: 10px;">
+                    <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7); border-radius: 8px; padding: 10px;">
                       <v-avatar class="mr-2" size="50">
                         <v-img :src="getImage(item.image)" height="50" width="50" contain></v-img>
                       </v-avatar>
@@ -324,7 +324,7 @@
     </v-main>
 
     <v-dialog v-model="showMoreModal" max-width="800px">
-      <v-card :style="{ background: 'linear-gradient(to bottom, #feb47b, #ff7e5f)' }">
+      <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
         <v-card-title class="text-h6">More Popular Dishes</v-card-title>
         <v-card-text>
           <div class="d-flex flex-wrap" style="background-color: #424242; padding: 20px; border-radius: 8px;">
@@ -334,7 +334,7 @@
               </v-avatar>
               <div class="text-white">{{ dish.name }}</div>
               <div class="text-white">{{ dish.money }}</div>
-              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
+              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Order</v-btn>
             </div>
           </div>
         </v-card-text>
@@ -361,7 +361,7 @@
     </v-dialog>
 
     <v-dialog v-model="showFoodModal" max-width="400px">
-      <v-card :style="{ background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)' }">
+      <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
         <v-card-title class="d-flex justify-between align-center">
           <span class="text-h6">Food Detail</span>
           <span @click="showFoodModal = false" class="text-white hover-button" style="cursor: pointer; margin-left: auto;">Close</span>
@@ -373,20 +373,20 @@
           <div class="text-white text-center">Price: {{ selectedFood.price }}</div>
           <div class="d-flex justify-center align-center mt-2">
             <v-text-field v-model="quantity" type="number" min="1" label="Quantity" class="mt-2" style="width: 60px;"></v-text-field>
-            <v-btn color="orange" @click="addToOrderWithQuantity(selectedFood)" class="ml-2">Order</v-btn>
+            <v-btn color="orange" @click="addToOrderWithQuantity(selectedFood)" class="ml-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Order</v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="showModal" max-width="800px">
-      <v-card :style="{ background: 'linear-gradient(to bottom, #feb47b, #ff7e5f)' }">
+      <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
         <v-card-title class="text-h6">All Popular Food Categories</v-card-title>
         <v-card-text>
           <div class="dishes-grid">
             <div v-for="dish in filteredFoods" :key="dish.id" class="dish-item">
               <v-img :src="getImage(dish.image)" height="150" class="zoom-out" contain></v-img>
-              <h6>{{ dish.name }}</h6>
+              <h6 class="text-white">{{ dish.name }}</h6>
             </div>
           </div>
         </v-card-text>
