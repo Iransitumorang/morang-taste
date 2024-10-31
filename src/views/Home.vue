@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" :style="{ background: 'linear-gradient(to right, #ff7e5f, #feb47b)' }" :class="{ 'blur-background': showPopup || showSubmitModal || showPromoModal || showFoodModal || showMoreModal }">
+  <v-app id="inspire" :style="{ background: 'linear-gradient(to right, #388e3c, #a5d6a7)' }" :class="{ 'blur-background': showPopup || showSubmitModal || showPromoModal || showFoodModal || showMoreModal }">
     <SideBare />
     <v-main>
       <v-container>
@@ -38,11 +38,11 @@
             </div>
 
             <div v-if="filteredFoods.length > 0" class="d-flex justify-start my-5 flex-wrap">
-              <v-btn @click="surpriseMe" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">Surprise me!</v-btn>
-              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Dessert</v-btn>
-              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Italian food</v-btn>
-              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Fast food</v-btn>
-              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Asian food</v-btn>
+              <v-btn @click="surpriseMe" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Surprise me!</v-btn>
+              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Dessert</v-btn>
+              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Italian food</v-btn>
+              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Fast food</v-btn>
+              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Asian food</v-btn>
             </div>
 
             <div v-if="filteredFoods.length > 0">
@@ -88,7 +88,7 @@
                           <span>{{ dishe.money }}</span>
                         </v-card-subtitle>
                         <v-card-title class="mt-1">{{ dishe.money }}</v-card-title>
-                        <v-btn @click="addToOrder(dishe)" color="orange" style="background: linear-gradient(to right, #ffccbc, #ffab91); margin-top: 10px;">Order</v-btn>
+                        <v-btn @click="addToOrder(dishe)" color="orange" style="background: linear-gradient(to right, #388e3c, #a5d6a7); margin-top: 10px;">Order</v-btn>
                         <div class="mt-2">
                           <span class="text-yellow">{{ dishe.star }} ⭐</span> 
                           <span class="text-white">({{ Math.floor(Math.random() * 100) + 1 }} ratings)</span>
@@ -164,8 +164,8 @@
             </div>
           </v-col>
           <v-col cols="12" sm="4">
-            <v-card class="rounded-xl" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f);" height="850">
-              <v-card class="mx-2 mt-4 rounded-lg" max-width="344" style="background: linear-gradient(to bottom, #ff7e5f, #feb47b);">
+            <v-card class="rounded-xl" style="background: linear-gradient(to right, #388e3c, #a5d6a7);" height="850">
+              <v-card class="mx-2 mt-4 rounded-lg" max-width="344" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
                 <v-card-item title="Morang's Taste">
                   <template v-slot:subtitle>
                     <v-icon icon="mdi mdi-map-marker" size="18" class="me-1 pb-1"></v-icon>
@@ -277,7 +277,7 @@
                 variant="flat" 
                 color="black" 
                 class="px-10 mLeft" 
-                style="margin-top: 20px; background: linear-gradient(to right, #ffccbc, #ffab91); font-weight: bold; color: #FFD700;" 
+                style="margin-top: 20px; background: linear-gradient(to right, #388e3c, #a5d6a7); font-weight: bold; color: #FFD700;" 
                 @click="submitOrder"
                 :disabled="orderedDishes.length === 0" 
                 :class="{ 'hover-effect': orderedDishes.length > 0 }"
@@ -346,7 +346,7 @@
     </v-dialog>
 
     <v-dialog v-model="showPopup" max-width="400px" class="popup-dialog">
-      <v-card>
+      <v-card :style="{ background: 'linear-gradient(to right, #388e3c, #a5d6a7)' }">
         <v-card-title class="text-h6">{{ popupTitle }}</v-card-title>
         <v-card-text>
           <span v-if="popupTitle === 'Pesanan Dikirim!'">{{ popupMessage }}</span>
@@ -698,7 +698,7 @@ export default {
   color: #FFD700;
 }
 .confirm-order-dialog .v-card {
-  background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+  background: linear-gradient(to right, #388e3c, #a5d6a7);
   color: white;
   border-radius: 10px;
   max-width: 300px;
@@ -760,7 +760,7 @@ export default {
   animation: bounce 1s infinite;
 }
 .popup-dialog .v-card {
-  background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+  background: linear-gradient(to right, #388e3c, #a5d6a7);
   color: white;
   border-radius: 10px;
 }

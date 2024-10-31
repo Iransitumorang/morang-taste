@@ -9,7 +9,7 @@
         class="ml-9"
       ></v-img>
     </div>
-    <v-card class="rounded-e-xl me" width="60" height="400" color="#545454"></v-card>
+    <v-card class="rounded-e-xl me" width="60" height="400" color="#388e3c"></v-card>
     <v-list class="top">
       <v-list-item
         v-for="(item, i) in links"
@@ -78,6 +78,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-app id="inspire" :style="{ background: 'linear-gradient(to right, #388e3c, #a5d6a7)' }" :class="{ 'blur-background': showSettingsDialog || dialog }">
+      ...
+    </v-app>
   </v-navigation-drawer>
 </template>
 
@@ -134,10 +138,10 @@ export default {
   border-radius: 50%;
 }
 .gradient-background {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  background: linear-gradient(to right, #388e3c, #a5d6a7);
 }
 .gradient-button {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  background: linear-gradient(to right, #388e3c, #a5d6a7);
   color: white;
 }
 .text-color {
