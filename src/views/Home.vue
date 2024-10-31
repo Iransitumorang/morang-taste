@@ -59,7 +59,7 @@
               <div class="d-flex justify-space-evenly mt-4 flex-wrap">
                 <div v-for="(food, i) in displayedFoods" :key="i" class="text-center">
                   <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
-                    <v-img :src="getImage(food.image)" height="50" class="zoom-out"></v-img>
+                    <v-img :src="getImage(food.image)" height="50" class="zoom-out" @error="handleImageError"></v-img>
                   </v-avatar>
                   <div class="text-white font-weight-bold">{{ food.name }}</div>
                   <div class="text-white">{{ food.price }}</div>
@@ -327,10 +327,10 @@
       <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
         <v-card-title class="text-h6">More Popular Dishes</v-card-title>
         <v-card-text>
-          <div class="d-flex flex-wrap" style="background-color: #424242; padding: 20px; border-radius: 8px;">
+          <div class="d-flex flex-wrap" style="background-color: #388e3c; padding: 20px; border-radius: 8px;">
             <div v-for="(dish, i) in moreDishes" :key="i" class="text-center" style="margin: 10px; width: calc(25% - 20px);">
               <v-avatar color="#605850" size="70" @click="openFoodModal(dish)">
-                <v-img :src="getImage(dish.image)" height="50" class="zoom-out"></v-img>
+                <v-img :src="getImage(dish.image)" height="50" class="zoom-out" @error="handleImageError"></v-img>
               </v-avatar>
               <div class="text-white">{{ dish.name }}</div>
               <div class="text-white">{{ dish.money }}</div>
@@ -380,10 +380,10 @@
     </v-dialog>
 
     <v-dialog v-model="showModal" max-width="800px">
-      <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
+      <v-card :style="{ background: 'linear-gradient(to bottom, #4caf50, #a5d6a7)' }">
         <v-card-title class="text-h6">All Popular Food Categories</v-card-title>
         <v-card-text>
-          <div class="d-flex flex-wrap" style="background-color: #424242; padding: 20px; border-radius: 8px;">
+          <div class="d-flex flex-wrap" style="background-color: #388e3c; padding: 20px; border-radius: 8px;">
             <div v-for="(dish, i) in filteredFoods.slice(0, filteredFoods.length - 1)" :key="dish.id" class="text-center" style="margin: 10px; width: calc(25% - 20px);">
               <v-avatar color="#605850" size="70" @click="openFoodModal(dish)">
                 <v-img :src="getImage(dish.image)" height="50" class="zoom-out"></v-img>
@@ -445,14 +445,14 @@ const selectedDish = ref({ name: '', price: '', quantity: 1 });
 const orderedDishes = ref([]);
 const showMoreModal = ref(false);
 const moreDishes = [
-  { image: "/src/assets/11.png", name: "Hamburger", money: "$10.00" },
-  { image: "/src/assets/22.png", name: "Pizza", money: "$25.00" },
-  { image: "/src/assets/33.png", name: "Sushi", money: "$15.00" },
-  { image: "/src/assets/44.png", name: "Gratin", money: "$23.00" },
-  { image: "/src/assets/2.png", name: "Pasta", money: "$12.00" },
-  { image: "/src/assets/3.png", name: "Salad", money: "$8.00" },
-  { image: "/src/assets/4.png", name: "Tacos", money: "$9.00" },
-  { image: "/src/assets/5.png", name: "Steak", money: "$30.00" },
+  { image: "11.png", name: "Hamburger", money: "$10.00" },
+  { image: "22.png", name: "Pizza", money: "$25.00" },
+  { image: "33.png", name: "Sushi", money: "$15.00" },
+  { image: "11.png", name: "Hamburger", money: "$10.00" },
+  { image: "22.png", name: "Pizza", money: "$25.00" },
+  { image: "33.png", name: "Sushi", money: "$15.00" },
+  { image: "11.png", name: "Hamburger", money: "$10.00" },
+  { image: "22.png", name: "Pizza", money: "$25.00" },
 ];
 
 const showSubmitModal = ref(false);
@@ -555,7 +555,7 @@ function confirmOrder() {
 function confirmDelete(index) {
   removeFromOrder(index);
   popupTitle.value = 'Dihapus!';
-  popupMessage.value = 'Item telah dihapus dari pesanan 😢😢';
+  popupMessage.value = 'Item telah dihapus dari pesanan 😢����';
   showPopup.value = true;
 }
 
@@ -672,6 +672,11 @@ function showAllFoodCategories() {
 <script>
 export default {
   data: () => ({}),
+  methods: {
+    handleImageError(event) {
+      event.target.src = '/path/to/fallback/image.png'; // Ganti dengan path gambar fallback
+    }
+  }
 };
 </script>
 
