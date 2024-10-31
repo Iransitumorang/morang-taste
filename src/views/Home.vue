@@ -59,7 +59,7 @@
               <div class="d-flex justify-space-evenly mt-4 flex-wrap">
                 <div v-for="(food, i) in displayedFoods" :key="i" class="text-center">
                   <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
-                    <v-img :src="food.image" height="50" class="zoom-out"></v-img>
+                    <v-img :src="getImage(food.image)" height="50" class="zoom-out"></v-img>
                   </v-avatar>
                   <div class="text-white font-weight-bold">{{ food.name }}</div>
                   <div class="text-white">{{ food.price }}</div>
@@ -78,7 +78,7 @@
               </h6>
 
               <v-carousel hide-delimiter :cycle="!carouselPaused" :interval="3000" @mouseover="pauseCarousel" @mouseleave="resumeCarousel">
-                <v-carousel-item v-for="(dishe, i) in filteredDishes" :key="i" :src="dishe.image">
+                <v-carousel-item v-for="(dishe, i) in filteredDishes" :key="i" :src="getImage(dishe.image)">
                   <div class="carousel-content">
                     <v-card class="mt-n10" width="250" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f); padding: 20px; text-align: center;"> 
                       <v-card-item>
@@ -193,7 +193,7 @@
                   <div v-else>
                     <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2" style="background: linear-gradient(to right, #ffccbc, #ffab91); border-radius: 8px; padding: 10px;">
                       <v-avatar class="mr-2" size="50">
-                        <v-img :src="item.image" height="50" width="50" contain></v-img>
+                        <v-img :src="getImage(item.image)" height="50" width="50" contain></v-img>
                       </v-avatar>
                       <div class="flex-grow-1">
                         <div class="text-black font-weight-bold text-h6">{{ item.name }} - {{ item.price }}</div>
@@ -330,7 +330,7 @@
           <div class="d-flex flex-wrap" style="background-color: #424242; padding: 20px; border-radius: 8px;">
             <div v-for="(dish, i) in moreDishes" :key="i" class="text-center" style="margin: 10px; width: calc(25% - 20px);">
               <v-avatar color="#605850" size="70" @click="openFoodModal(dish)">
-                <v-img :src="dish.image" height="50" class="zoom-out"></v-img>
+                <v-img :src="getImage(dish.image)" height="50" class="zoom-out"></v-img>
               </v-avatar>
               <div class="text-white">{{ dish.name }}</div>
               <div class="text-white">{{ dish.money }}</div>
@@ -369,7 +369,7 @@
         <v-card-subtitle class="text-white text-center font-weight-bold mb-2" style="font-size: 1.5rem;">{{ selectedFood.name }}</v-card-subtitle>
         <v-card-subtitle class="text-white text-center">Discover the delightful flavors and unique <br/> ingredients of your chosen dish!</v-card-subtitle>
         <v-card-text>
-          <v-img :src="selectedFood.image" height="150" class="mb-2 zoom-out" contain></v-img>
+          <v-img :src="getImage(selectedFood.image)" height="150" class="mb-2 zoom-out" contain></v-img>
           <div class="text-white text-center">Price: {{ selectedFood.price }}</div>
           <div class="d-flex justify-center align-center mt-2">
             <v-text-field v-model="quantity" type="number" min="1" label="Quantity" class="mt-2" style="width: 60px;"></v-text-field>
@@ -384,13 +384,9 @@
         <v-card-title class="text-h6">All Popular Food Categories</v-card-title>
         <v-card-text>
           <div class="dishes-grid">
-            <div v-for="(dish, i) in dishes" :key="i" class="dish-item"> 
-              <v-avatar color="#605850" size="70" @click="openFoodModal(dish)">
-                <v-img :src="dish.image" height="50" class="zoom-out"></v-img>
-              </v-avatar>
-              <div class="text-white">{{ dish.name }}</div>
-              <div class="text-white">{{ dish.money }}</div>
-              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
+            <div v-for="dish in filteredFoods" :key="dish.id" class="dish-item">
+              <v-img :src="getImage(dish.image)" height="150" class="zoom-out" contain></v-img>
+              <h6>{{ dish.name }}</h6>
             </div>
           </div>
         </v-card-text>
@@ -407,7 +403,6 @@
 import { ref, computed } from 'vue';
 import SideBare from "@/components/SideBar.vue";
 import Swal from 'sweetalert2'; 
-import image from '@/assets/20.jpg'; 
 
 const searchQuery = ref('');
 const filteredFoods = ref([]);
@@ -415,30 +410,30 @@ const filteredDishes = ref([]);
 const sortOption = ref('All Items');
 const sortOptions = ['All Items', 'Price: Low to High', 'Price: High to Low'];
 const foods = [
-  { image: "/src/assets/2.png", name: "Burger", price: "$5.00", category: "Fast food" },
-  { image: "/src/assets/3.png", name: "Pizza", price: "$8.00", category: "Italian food" },
-  { image: "/src/assets/4.png", name: "Sushi", price: "$10.00", category: "Asian food" },
-  { image: "/src/assets/5.png", name: "Pasta", price: "$7.00", category: "Italian food" },
-  { image: "/src/assets/6.png", name: "Salad", price: "$4.00", category: "Dessert" },
-  { image: "/src/assets/7.png", name: "Tacos", price: "$6.00", category: "Fast food" },
-  { image: "/src/assets/8.png", name: "Steak", price: "$15.00", category: "Asian food" },
-  { image: "/src/assets/6.png", name: "Ice Cream", price: "$3.00", category: "Dessert" },
-  { image: "/src/assets/4.png", name: "Brownie", price: "$2.00", category: "Dessert" },
+  { image: "2.png", name: "Burger", price: "$5.00", category: "Fast food" },
+  { image: "3.png", name: "Pizza", price: "$8.00", category: "Italian food" },
+  { image: "4.png", name: "Sushi", price: "$10.00", category: "Asian food" },
+  { image: "5.png", name: "Pasta", price: "$7.00", category: "Italian food" },
+  { image: "6.png", name: "Salad", price: "$4.00", category: "Dessert" },
+  { image: "7.png", name: "Tacos", price: "$6.00", category: "Fast food" },
+  { image: "8.png", name: "Steak", price: "$15.00", category: "Asian food" },
+  { image: "6.png", name: "Ice Cream", price: "$3.00", category: "Dessert" },
+  { image: "4.png", name: "Brownie", price: "$2.00", category: "Dessert" },
 ];
 
 const dishes = [
-  { image: "/src/assets/11.png", name: "Hamburger", money: "$10.00", star: "4.5", category: "Fast food" },
-  { image: "/src/assets/22.png", name: "Pizza", money: "$25.00", star: "4.1", category: "Italian food" },
-  { image: "/src/assets/33.png", name: "Sushi", money: "$15.00", star: "4.3", category: "Asian food" },
-  { image: "/src/assets/44.png", name: "Gratin", money: "$23.00", star: "4.9", category: "Italian food" },
-  { image: "/src/assets/2.png", name: "Pasta", money: "$12.00", star: "4.6", category: "Italian food" },
-  { image: "/src/assets/3.png", name: "Salad", money: "$8.00", star: "4.2", category: "Dessert" },
-  { image: "/src/assets/4.png", name: "Tacos", money: "$9.00", star: "4.4", category: "Fast food" },
-  { image: "/src/assets/5.png", name: "Steak", money: "$30.00", star: "4.8", category: "Asian food" },
-  { image: "/src/assets/6.png", name: "Ice Cream", money: "$5.00", star: "4.7", category: "Dessert" },
-  { image: "/src/assets/7.png", name: "Brownie", money: "$6.00", star: "4.5", category: "Dessert" },
-  { image: "/src/assets/8.png", name: "Sushi Roll", money: "$12.00", star: "4.6", category: "Asian food" },
-  { image: "/src/assets/9.png", name: "Pasta Primavera", money: "$14.00", star: "4.4", category: "Italian food" },
+  { image: "11.png", name: "Hamburger", money: "$10.00", star: "4.5", category: "Fast food" },
+  { image: "22.png", name: "Pizza", money: "$25.00", star: "4.1", category: "Italian food" },
+  { image: "33.png", name: "Sushi", money: "$15.00", star: "4.3", category: "Asian food" },
+  { image: "44.png", name: "Gratin", money: "$23.00", star: "4.9", category: "Italian food" },
+  { image: "2.png", name: "Pasta", money: "$12.00", star: "4.6", category: "Italian food" },
+  { image: "3.png", name: "Salad", money: "$8.00", star: "4.2", category: "Dessert" },
+  { image: "4.png", name: "Tacos", money: "$9.00", star: "4.4", category: "Fast food" },
+  { image: "5.png", name: "Steak", money: "$30.00", star: "4.8", category: "Asian food" },
+  { image: "6.png", name: "Ice Cream", money: "$5.00", star: "4.7", category: "Dessert" },
+  { image: "7.png", name: "Brownie", money: "$6.00", star: "4.5", category: "Dessert" },
+  { image: "8.png", name: "Sushi Roll", money: "$12.00", star: "4.6", category: "Asian food" },
+  { image: "9.png", name: "Pasta Primavera", money: "$14.00", star: "4.4", category: "Italian food" },
 ];
 
 const showModal = ref(false);
@@ -654,6 +649,15 @@ function applyPromoAndClear() {
   applyPromo();
   promoCode.value = ''; 
 }
+
+const getImage = (imagePath) => {
+  try {
+    return new URL(`../assets/${imagePath}`, import.meta.url).href;
+  } catch (error) {
+    console.error("Gambar tidak ditemukan:", error);
+    return ''; // Kembalikan string kosong jika gambar tidak ditemukan
+  }
+};
 </script>
 
 <script>
