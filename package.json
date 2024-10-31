@@ -9,7 +9,8 @@
     "dev": "vite",
     "build": "echo 'Starting build...' && vite build",
     "serve": "vite preview",
-    "lint": "eslint . --fix --ignore-path .gitignore"
+    "lint": "eslint . --fix --ignore-path .gitignore",
+    "check-node": "node -v"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
