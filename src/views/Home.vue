@@ -407,7 +407,7 @@
 import { ref, computed } from 'vue';
 import SideBare from "@/components/SideBar.vue";
 import Swal from 'sweetalert2'; 
-import image from '@/assets/20.jpg'; // Pastikan jalur ini sesuai
+import image from '@/assets/20.jpg'; 
 
 const searchQuery = ref('');
 const filteredFoods = ref([]);
