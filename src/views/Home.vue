@@ -63,7 +63,7 @@
                   </v-avatar>
                   <div class="text-white font-weight-bold">{{ food.name }}</div>
                   <div class="text-white">{{ food.price }}</div>
-                  <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #ffccbc, #ffab91);">Order</v-btn>
+                  <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Order</v-btn>
                 </div>
               </div>
 
@@ -96,7 +96,7 @@
                         <div class="mt-1">
                           <span class="text-white">Ordered: {{ orderedDishes.length }} Dishes</span>
                         </div>
-                        <v-btn @click="openFoodModal(dishe)" color="primary" class="mt-2">View Details</v-btn> 
+                        <v-btn @click="openFoodModal(dishe)" color="orange" class="mt-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">View Details</v-btn> 
                       </v-card-item>
                     </v-card>
                   </div>
@@ -112,7 +112,7 @@
               <h6 class="text-white ml-4 mt-n4">
                 <span class="text-red">Wow {{ orderedDishes.length }} new </span> Order got this week
               </h6>
-              <v-card class="rounded-xl ma-2 pa-1" style="background: linear-gradient(to bottom, #feb47b, #ff7e5f);">
+              <v-card class="rounded-xl ma-2 pa-1" style="background: linear-gradient(to bottom, #388e3c, #a5d6a7);">
                 <v-row>
                   <v-col cols="12" sm="1"> </v-col>
                   <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Customer</span></v-col>
@@ -165,7 +165,7 @@
           </v-col>
           <v-col cols="12" sm="4">
             <v-card class="rounded-xl" style="background: linear-gradient(to right, #388e3c, #a5d6a7);" height="850">
-              <v-card class="mx-2 mt-4 rounded-lg" max-width="344" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
+              <v-card class="mx-2 mt-4 rounded-lg" max-width="344" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">
                 <v-card-item title="Morang's Taste">
                   <template v-slot:subtitle>
                     <v-icon icon="mdi mdi-map-marker" size="18" class="me-1 pb-1"></v-icon>
@@ -180,15 +180,15 @@
                   <v-icon>mdi mdi-cart</v-icon>
                   <span v-if="orderedDishes.length > 0" class="text-caption cart-count">{{ orderedDishes.length }}</span>
                 </v-btn>
-                <v-toolbar-title class="text-white">My Order</v-toolbar-title>
+                <v-toolbar-title class="text-white" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">My Order</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <span class="text-caption text-white me-2">Order ID: #{{ randomOrderId }}</span>
               </v-toolbar>
               <v-card class="ma-2 mt-n2" color="transparent" flat>
                 <v-card-text class="ml-14 mt-n2" style="max-height: 350px; overflow-y: auto; margin-bottom: 20px;">
-                  <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #ffccbc, #ffab91); color: black; padding: 20px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
-                    <div class="no-order-message" style="background: linear-gradient(to right, #ff7e5f, #feb47b); color: black;">Tidak ada pesanan :(</div>
-                    <div class="order-prompt" style="color: black;">Ayo, pesan makanan favoritmu sekarang!</div>
+                  <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #388e3c, #a5d6a7); color: white; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
+                    <div class="no-order-message" style="color: white;">Tidak ada pesanan :(</div>
+                    <div class="order-prompt" style="color: white;">Ayo, pesan makanan favoritmu sekarang!</div>
                   </div>
                   <div v-else>
                     <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2" style="background: linear-gradient(to right, #ffccbc, #ffab91); border-radius: 8px; padding: 10px;">
@@ -215,7 +215,7 @@
                 <v-chip 
                   variant="flat" 
                   color="orange" 
-                  style="background: linear-gradient(to right, #ffccbc, #ffab91);" 
+                  style="background: linear-gradient(to right, #388e3c, #a5d6a7);" 
                   @click="showPromoModal = true" :disabled="orderedDishes.length === 0" 
                 >
                   Purchase 
@@ -223,7 +223,7 @@
               </v-card>
 
               <v-dialog v-model="showPromoModal" max-width="400px">
-                <v-card :style="{ background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)' }">
+                <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
                   <v-card-title class="text-h6">Enter Promo Code</v-card-title>
                   <v-card-text>
                     <v-text-field v-model="promoCode" label="Promo Code" />
@@ -241,7 +241,7 @@
                 </v-card>
               </v-dialog>
 
-              <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #ff7e5f, #feb47b); color: white; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s; margin-top: 20px; margin-left: 10px; margin-right: 10px;">
+              <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #388e3c, #a5d6a7); color: white; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
                 <div class="text-caption" style="color: white; font-size: 1.5rem;">Cobalah makanan lezat kami!</div>
                 <div class="text-caption" style="color: white; font-size: 1.2rem;">Nikmati pengalaman kuliner yang tak terlupakan, sekarang juga.</div>
                 <div class="text-caption" style="color: white; font-size: 1.2rem;">Pesan sekarang dan rasakan kelezatannya!</div>
