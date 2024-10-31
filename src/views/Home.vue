@@ -32,27 +32,27 @@
               ></v-select>
             </div>
 
-            <div v-if="filteredFoods.length === 0 && searchQuery" class="text-center text-white mt-4" style="font-size: 2.5rem; background-color: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 8px;">
+            <div v-if="filteredFoods.length === 0 && searchQuery" class="text-center text-black mt-4" style="font-size: 2.5rem; background-color: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 8px;">
               <h6>Tidak ada item yang ditemukan untuk "{{ searchQuery }}".</h6>
               <v-img src="/src/assets/ue.png" alt="No items found" height="300" class="mt-2"></v-img>
             </div>
 
             <div v-if="filteredFoods.length > 0" class="d-flex justify-start my-5 flex-wrap">
-              <v-btn @click="surpriseMe" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Surprise me!</v-btn>
-              <v-btn @click="filterByCategory('Dessert')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Dessert</v-btn>
-              <v-btn @click="filterByCategory('Italian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Italian food</v-btn>
-              <v-btn @click="filterByCategory('Fast food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Fast food</v-btn>
-              <v-btn @click="filterByCategory('Asian food')" class="white--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Asian food</v-btn>
+              <v-btn @click="surpriseMe" class="black--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Surprise me!</v-btn>
+              <v-btn @click="filterByCategory('Dessert')" class="black--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Dessert</v-btn>
+              <v-btn @click="filterByCategory('Italian food')" class="black--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Italian food</v-btn>
+              <v-btn @click="filterByCategory('Fast food')" class="black--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Fast food</v-btn>
+              <v-btn @click="filterByCategory('Asian food')" class="black--text rounded-lg elevation-2 mx-1" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Asian food</v-btn>
             </div>
 
             <div v-if="filteredFoods.length > 0">
               <v-toolbar color="transparent" class="pr-1 mt-n2">
-                <v-toolbar-title class="text-white">Categories</v-toolbar-title>
+                <v-toolbar-title class="text-black">Categories</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <span @click="showAllFoodCategories" class="text-caption text-white hover-effect">View all</span>
+                <span @click="showAllFoodCategories" class="text-caption text-black hover-effect">View all</span>
                 <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey" @click="showAllFoodCategories" class="hover-effect"></v-btn>
               </v-toolbar>
-              <h6 class="text-white ml-4 mt-n4">
+              <h6 class="text-black ml-4 mt-n4">
                 <span class="text-red">{{ filteredFoods.length }} new </span> Categories added this week
               </h6>
 
@@ -61,19 +61,19 @@
                   <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
                     <v-img :src="getImage(food.image)" height="50" class="zoom-out" @error="handleImageError"></v-img>
                   </v-avatar>
-                  <div class="text-white font-weight-bold">{{ food.name }}</div>
-                  <div class="text-white">{{ food.price }}</div>
+                  <div class="text-black font-weight-bold">{{ food.name }}</div>
+                  <div class="text-black">{{ food.price }}</div>
                   <v-btn @click="addToOrder(food)" color="orange" class="mt-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Order</v-btn>
                 </div>
               </div>
 
               <v-toolbar color="transparent" class="pr-1 my-2">
-                <v-toolbar-title class="text-white">Popular Dishes</v-toolbar-title>
+                <v-toolbar-title class="text-black">Popular Dishes</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <span class="text-caption text-white hover-effect" @click="showMoreDishes">View More</span>
+                <span class="text-caption text-black hover-effect" @click="showMoreDishes">View More</span>
                 <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey" @click="showMoreDishes" class="hover-effect"></v-btn>
               </v-toolbar>
-              <h6 class="text-white ml-4 mt-n4">
+              <h6 class="text-black ml-4 mt-n4">
                 <span class="text-red">{{ filteredDishes.length }} new </span> dishes added this week
               </h6>
 
@@ -104,38 +104,38 @@
               </v-carousel>
 
               <v-toolbar color="transparent" class="pr-1 mt-5">
-                <v-toolbar-title class="text-white">Order Reports</v-toolbar-title>
+                <v-toolbar-title class="text-black">Order Reports</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <span class="text-caption text-white">View all</span>
+                <span class="text-caption text-black">View all</span>
                 <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey"></v-btn>
               </v-toolbar>
-              <h6 class="text-white ml-4 mt-n4">
+              <h6 class="text-black ml-4 mt-n4">
                 <span class="text-red">Wow {{ orderedDishes.length }} new </span> Order got this week
               </h6>
               <v-card class="rounded-xl ma-2 pa-1" style="background: linear-gradient(to bottom, #388e3c, #a5d6a7);">
                 <v-row>
                   <v-col cols="12" sm="1"> </v-col>
-                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Customer</span></v-col>
-                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Order number</span></v-col>
-                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Address</span></v-col>
-                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Amount</span></v-col>
-                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption">Status</span></v-col>
+                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption text-black">Customer</span></v-col>
+                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption text-black">Order number</span></v-col>
+                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption text-black">Address</span></v-col>
+                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption text-black">Amount</span></v-col>
+                  <v-col cols="12" sm="2" class="text-center"><span class="text-caption text-black">Status</span></v-col>
                   <v-col cols="12" sm="1" class="text-center"></v-col>
                 </v-row>
               </v-card>
               <v-row class="mt-2 ms-3">
                 <v-col cols="12" sm="3" class="mt-2"> 
                   <v-avatar> <v-img src="/src/assets/20.jpg" alt="John"></v-img> </v-avatar>
-                  <span class="text-caption text-white ml-1">Jenetta Sinaga</span>
+                  <span class="text-caption text-black ml-1">Jenetta Sinaga</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
-                  <span class="text-caption text-white">086537867736</span>
+                  <span class="text-caption text-black">086537867736</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
-                  <span class="text-caption text-white">Kuningan Barat</span>
+                  <span class="text-caption text-black">Kuningan Barat</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
-                  <span class="text-caption text-white">$120.45</span>
+                  <span class="text-caption text-black">$120.45</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center">
                   <v-chip variant="flat" color="green" class="status-chip"> Completed </v-chip>
@@ -145,16 +145,16 @@
               <v-row class="mt-1 ms-3">
                 <v-col cols="12" sm="3" class="mt-2"> 
                   <v-avatar> <v-img src="/src/assets/30.jpg" alt="John"></v-img> </v-avatar>
-                  <span class="text-caption text-white ml-1">Peter Situmorang</span>
+                  <span class="text-caption text-black ml-1">Peter Situmorang</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
-                  <span class="text-caption text-white">089787686556</span>
+                  <span class="text-caption text-black">089787686556</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
-                  <span class="text-caption text-white">Pancoran tugu</span>
+                  <span class="text-caption text-black">Pancoran tugu</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center mt-2">
-                  <span class="text-caption text-white">$140.45</span>
+                  <span class="text-caption text-black">$140.45</span>
                 </v-col>
                 <v-col cols="12" sm="2" class="text-center">
                   <v-chip variant="flat" color="orange" class="status-chip"> Pending </v-chip>
@@ -180,15 +180,15 @@
                   <v-icon>mdi mdi-cart</v-icon>
                   <span v-if="orderedDishes.length > 0" class="text-caption cart-count">{{ orderedDishes.length }}</span>
                 </v-btn>
-                <v-toolbar-title class="text-white" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">My Order</v-toolbar-title>
+                <v-toolbar-title class="text-black" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">My Order</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <span class="text-caption text-white me-2">Order ID: #{{ randomOrderId }}</span>
+                <span class="text-caption text-black me-2">Order ID: #{{ randomOrderId }}</span>
               </v-toolbar>
               <v-card class="ma-2 mt-n2" color="transparent" flat>
                 <v-card-text class="ml-14 mt-n2" style="max-height: 350px; overflow-y: auto; margin-bottom: 20px;">
-                  <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #388e3c, #a5d6a7); color: white; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
-                    <div class="no-order-message" style="color: white;">Tidak ada pesanan :(</div>
-                    <div class="order-prompt" style="color: white;">Ayo, pesan makanan favoritmu sekarang!</div>
+                  <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #388e3c, #a5d6a7); color: black; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
+                    <div class="no-order-message" style="color: black;">Tidak ada pesanan :(</div>
+                    <div class="order-prompt" style="color: black; font-weight: bold; animation: bounce 1s infinite;">Ayo, pesan makanan favoritmu sekarang!</div>
                   </div>
                   <div v-else>
                     <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex align-center mb-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7); border-radius: 8px; padding: 10px;">
@@ -241,10 +241,10 @@
                 </v-card>
               </v-dialog>
 
-              <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #388e3c, #a5d6a7); color: white; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
-                <div class="text-caption" style="color: white; font-size: 1.5rem;">Cobalah makanan lezat kami!</div>
-                <div class="text-caption" style="color: white; font-size: 1.2rem;">Nikmati pengalaman kuliner yang tak terlupakan, sekarang juga.</div>
-                <div class="text-caption" style="color: white; font-size: 1.2rem;">Pesan sekarang dan rasakan kelezatannya!</div>
+              <div v-if="orderedDishes.length === 0" style="background: linear-gradient(to right, #388e3c, #a5d6a7); color: black; padding: 30px; border-radius: 8px; text-align: center; animation: fadeIn 1s;">
+                <div class="text-caption" style="color: black; font-size: 1.5rem;">Cobalah makanan lezat kami!</div>
+                <div class="text-caption" style="color: black; font-size: 1.2rem;">Nikmati pengalaman kuliner yang tak terlupakan, sekarang juga.</div>
+                <div class="text-caption" style="color: black; font-size: 1.2rem;">Pesan sekarang dan rasakan kelezatannya!</div>
               </div>
 
               <div v-if="orderedDishes.length > 0">
@@ -287,7 +287,7 @@
 
               <v-dialog v-model="showSubmitModal" max-width="800px" class="confirm-order-dialog" style="display: flex; justify-content: center; align-items: center; width: 800px; height: 600px;">
                 <v-card style="margin: auto;">
-                  <v-card-title class="text-h6 text-center" style="font-weight: bold; background: linear-gradient(to right, #ff7e5f, #feb47b); color: white; padding: 16px;">Confirm Order</v-card-title>
+                  <v-card-title class="text-h6 text-center" style="font-weight: bold; background: linear-gradient(to right, #ff7e5f, #feb47b); color: black; padding: 16px;">Confirm Order</v-card-title>
                   <v-card-text>
                     <div v-for="(item, index) in orderedDishes" :key="index" class="d-flex justify-space-between item-row">
                       <span>{{ item.name }} - {{ item.price }} (x{{ item.quantity }})</span>
@@ -295,19 +295,19 @@
                     <v-divider class="my-"></v-divider>
                     <div class="mt-5 total-price d-flex justify-space-between">
                       <strong>Sub Total</strong>
-                      <span class="text-white confirm-total">${{ calculateSubTotal }}</span>
+                      <span class="text-black confirm-total">${{ calculateSubTotal }}</span>
                     </div>
                     <div class="mt-2 total-price d-flex justify-space-between">
                       <strong>Discount</strong>
-                      <span class="text-white confirm-discount">{{ discountAmount }}</span>
+                      <span class="text-black confirm-discount">{{ discountAmount }}</span>
                     </div>
                     <div class="mt-2 total-price d-flex justify-space-between">
                       <strong>Service Charge</strong>
-                      <span class="text-white confirm-total">$10</span>
+                      <span class="text-black confirm-total">$10</span>
                     </div>
                     <div class="mt-2 total-price d-flex justify-space-between">
                       <strong>Total After Disc</strong>
-                      <span class="text-white confirm-total">${{ calculateTotalWithDiscount }}</span>
+                      <span class="text-black confirm-total">${{ calculateTotalWithDiscount }}</span>
                     </div>
                   </v-card-text>
                   <v-card-actions>
@@ -555,7 +555,7 @@ function confirmOrder() {
 function confirmDelete(index) {
   removeFromOrder(index);
   popupTitle.value = 'Dihapus!';
-  popupMessage.value = 'Item telah dihapus dari pesanan 😢����';
+  popupMessage.value = 'Item telah dihapus dari pesanan 😢';
   showPopup.value = true;
 }
 
