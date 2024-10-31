@@ -57,7 +57,7 @@
               </h6>
 
               <div class="d-flex justify-space-evenly mt-4 flex-wrap">
-                <div v-for="(food, i) in displayedFoods" :key="i" class="text-center">
+                <div v-for="(food, i) in displayedFoods.slice(0, 7)" :key="i" class="text-center">
                   <v-avatar color="#424242" size="70" @click="openFoodModal(food)">
                     <v-img :src="getImage(food.image)" height="50" class="zoom-out" @error="handleImageError"></v-img>
                   </v-avatar>
