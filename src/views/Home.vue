@@ -49,8 +49,8 @@
               <v-toolbar color="transparent" class="pr-1 mt-n2">
                 <v-toolbar-title class="text-white">Categories</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <span @click="showModal = true" class="text-caption text-white hover-effect">View all</span>
-                <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey" @click="showModal = true" class="hover-effect"></v-btn>
+                <span @click="showAllFoodCategories" class="text-caption text-white hover-effect">View all</span>
+                <v-btn density="compact" icon="mdi mdi-chevron-right-box" color="grey" @click="showAllFoodCategories" class="hover-effect"></v-btn>
               </v-toolbar>
               <h6 class="text-white ml-4 mt-n4">
                 <span class="text-red">{{ filteredFoods.length }} new </span> Categories added this week
@@ -383,10 +383,14 @@
       <v-card :style="{ background: 'linear-gradient(to bottom, #388e3c, #a5d6a7)' }">
         <v-card-title class="text-h6">All Popular Food Categories</v-card-title>
         <v-card-text>
-          <div class="dishes-grid">
-            <div v-for="dish in filteredFoods" :key="dish.id" class="dish-item">
-              <v-img :src="getImage(dish.image)" height="150" class="zoom-out" contain></v-img>
-              <h6 class="text-white">{{ dish.name }}</h6>
+          <div class="d-flex flex-wrap" style="background-color: #424242; padding: 20px; border-radius: 8px;">
+            <div v-for="(dish, i) in filteredFoods.slice(0, filteredFoods.length - 1)" :key="dish.id" class="text-center" style="margin: 10px; width: calc(25% - 20px);">
+              <v-avatar color="#605850" size="70" @click="openFoodModal(dish)">
+                <v-img :src="getImage(dish.image)" height="50" class="zoom-out"></v-img>
+              </v-avatar>
+              <div class="text-white">{{ dish.name }}</div>
+              <div class="text-white">{{ dish.price }}</div>
+              <v-btn @click="addToOrder(dish)" color="primary" class="mt-2" style="background: linear-gradient(to right, #388e3c, #a5d6a7);">Order</v-btn>
             </div>
           </div>
         </v-card-text>
@@ -658,6 +662,11 @@ const getImage = (imagePath) => {
     return ''; // Kembalikan string kosong jika gambar tidak ditemukan
   }
 };
+
+function showAllFoodCategories() {
+  filteredFoods.value = foods; // Mengisi dengan semua makanan
+  showModal.value = true; // Menampilkan modal
+}
 </script>
 
 <script>
