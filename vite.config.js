@@ -38,5 +38,6 @@ export default defineConfig({
     rollupOptions: {
       external: ['20.jpg', '30.jpg']
     }
-  }
+  },
+  base: '/',
 })
